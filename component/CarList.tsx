@@ -35,7 +35,6 @@ export default function CarList({ cars }: Props) {
           </article>
         ))}
 
-        {/* FORM LOGIC */}
         {remainder === 0 && (
           <FormWithPreview
             cars={cars}

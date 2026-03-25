@@ -109,6 +109,7 @@
 .btn.red {
   background: #d60000;
   color: #fff;
+  border: none;
 }
 
 .btn.red:hover {

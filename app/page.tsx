@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Hero from "@/component/Hero";
 import CarList from "@/component/CarList";
 import { cars } from "@/component/data";
+import PopupManager from "@/component/PopupManager";
+
 
 export const metadata: Metadata = {
   title: "Mitsubishi Đà Nẵng - Báo giá xe Mitsubishi mới nhất",
@@ -28,6 +30,8 @@ export default function Home() {
           </p>
         </section>
       </main>
+
+      <PopupManager />
     </>
   );
 }

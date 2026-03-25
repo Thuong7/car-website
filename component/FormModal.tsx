@@ -1,0 +1,60 @@
+"use client";
+
+import Image from "next/image";
+import FormBox from "./FormBox";
+import "./FormBox.css";
+import { useEffect } from "react";
+
+type Props = {
+  open: boolean;
+  onClose: () => void;
+};
+
+export default function FormPopup({ open, onClose }: Props) {
+
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
+  if (!open) return null;
+
+  return (
+    <div className="popup-overlay" onClick={onClose}>
+      <div
+        className="popup-container"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button className="popup-close" onClick={onClose}>
+          ✕
+        </button>
+
+        <div className="popup-banner">
+          <Image
+            src="/email.jpg"
+            alt="Mitsubishi Đà Nẵng - Nhận báo giá lăn bánh"
+            width={600}
+            height={200}
+            priority
+            sizes="(max-width: 768px) 100vw, 600px"
+          />
+        </div>
+
+        <div className="popup-content">
+          <h2>NHẬN BÁO GIÁ LĂN BÁNH</h2>
+          <p>
+            Quý khách vui lòng điền thông tin để nhận báo giá nhanh nhất.
+          </p>
+          <FormBox hideTitle />
+        </div>
+      </div>
+    </div>
+  );
+}

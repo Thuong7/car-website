@@ -87,12 +87,16 @@
 .icon-sc svg{
   height: 25px;
   width: 25px;
+  color: #fff;
 }
 .icon-sc:nth-child(1) svg {
   transform: translateY(2px) translateX(2px);
 }
 .icon-sc:nth-child(2) svg {
   transform: translateX(3px) translateY(2.5px);
+}
+.icon-sc:nth-child(3) svg {
+  transform: translateX(5px) translateY(2.5px);
 }
 .icons{
   display: flex;

@@ -38,7 +38,11 @@
   border-radius: 50%;
   overflow: hidden;
 }
-
+.avatar {
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  object-fit: cover;
+}
 .preview-box img {
   width: 100%;
   height: auto;
@@ -62,13 +66,12 @@
   background: #fff;
   padding: 30px 0;
   border-radius: 16px;
-  border: #d8d8d8 1px solid;
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
 
-.form-box h2 {
+.form-box h3 {
   text-align: center;
   font-size: 22px;
   font-weight: 800;
@@ -112,7 +115,23 @@
   outline: none;
   transition: 0.2s;
 }
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.form-message {
+  font-size: 14px;
+  margin: 8px 0;
+  text-align: center;
+}
 
+.form-message.error {
+  color: #d60000;
+}
+
+.form-message.success {
+  color: green;
+}
 .form-box input:focus,
 .form-box-prv select:focus,
 .form-box input:focus,
@@ -158,5 +177,80 @@
 
   .form-box {
     width: 100%;
+  }
+}
+
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100dvh; 
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  overflow-y: auto;
+  overflow-x: hidden; 
+  padding: 20px 0;
+  box-sizing: border-box;
+}
+
+.popup-container {
+  background: #fff;
+  width: calc(100% - 32px); 
+  max-width: 600px;
+  border-radius: 12px;
+  position: relative;
+  animation: fadeIn 0.3s ease;
+  margin: 0 auto; 
+}
+
+.popup-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  border: none;
+  background: none;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.popup-banner img {
+   width: 90%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.popup-content {
+  padding: 0 20px;
+  text-align: center;
+}
+
+.popup-content h2 {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.popup-content p {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (max-height: 768px) {
+  .popup-overlay {
+    align-items: flex-start;
+    padding: 20px 0;
   }
 }

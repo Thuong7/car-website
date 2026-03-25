@@ -151,6 +151,7 @@ body {
 .menu {
   list-style: none;
   padding: 0;
+  text-decoration: none;
 }
 
 .menu li {
@@ -166,7 +167,10 @@ body {
   font-size: 14px;
   color: #454545;
 }
-
+.menu a {
+  text-decoration: none;
+  color: inherit;
+}
 /* row có icon */
 .menu-row {
   display: flex;
@@ -207,12 +211,6 @@ body {
 .mobile-center,
 .mobile-right {
   display: none;
-}
-
-@media (max-width: 1024px) {
-  .hotline {
-    display: none;
-  }
 }
 
 @media (max-width: 768px) {

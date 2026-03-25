@@ -6,10 +6,13 @@ import { cars } from "@/component/data";
 import Link from "next/link";
 import Image from "next/image";
 import "./Header.css";
+import FormPopup from "./FormModal";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
+  const [openSidebar, setOpenSidebar] = useState(false);
+  const [openPopup, setOpenPopup] = useState(false);
 
   // ===== LOCK SCROLL =====
   useEffect(() => {
@@ -58,7 +61,7 @@ export default function Header() {
 
             {/* MOBILE */}
             <div className="mobile-left">
-              <Menu onClick={() => setOpen(true)} />
+              <Menu onClick={() => setOpenSidebar(true)} />
             </div>
 
             <div className="mobile-center">
@@ -92,7 +95,7 @@ export default function Header() {
             </div>
 
             <div className="right">
-              <Menu onClick={() => setOpen(true)} />
+              <Menu onClick={() => setOpenSidebar(true)} />
               <Search />
               <a href="tel:0705222246" className="hotline">
                 HOTLINE: <b>0934 780 797</b>
@@ -118,31 +121,35 @@ export default function Header() {
               ))}
             </ul>
 
-            <button className="test-drive">
+           <button
+              className="test-drive"
+              onClick={(e) => {
+                e.stopPropagation();
+                setOpenPopup(true); // 👈 đúng cái cần mở
+              }}
+            >
               ĐĂNG KÝ LÁI THỬ
             </button>
+              <FormPopup open={openPopup} onClose={() => setOpenPopup(false)} />
           </div>
         </nav>
       </header>
 
       {/* OVERLAY */}
-      {open && (
-        <div
-          className="overlay"
-          onClick={() => setOpen(false)}
-        />
+      {openSidebar && (
+        <div className="overlay" onClick={() => setOpenSidebar(false)} />
       )}
 
       {/* SIDEBAR */}
-      <div className={`sidebar ${open ? "active" : ""}`}>
+      <div className={`sidebar ${openSidebar ? "active" : ""}`}>
 
         <div className="sidebar-header">
-          <X onClick={() => setOpen(false)} />
+          <X onClick={() => setOpenSidebar(false)} />
         </div>
 
         <ul className="menu">
           <li>
-            <Link href="/" onClick={() => setOpen(false)}>
+            <Link href="/" onClick={() => setOpenSidebar(false)}>
               TRANG CHỦ
             </Link>
           </li>
@@ -164,7 +171,7 @@ export default function Header() {
               <li key={car.id}>
                 <Link
                   href={`/car/${car.slug}`}
-                  onClick={() => setOpen(false)}
+                  onClick={() => setOpenSidebar(false)}
                 >
                   {car.name}
                 </Link>
@@ -177,8 +184,8 @@ export default function Header() {
           <li>LIÊN HỆ</li>
 
           <li>
-            <a href="tel:0705222246" className="hotline">
-              HOTLINE: <b>0705 222 246</b>
+            <a href="tel:0934780797" className="hotline">
+              HOTLINE: <b>0934 780 797</b>
             </a>
           </li>
         </ul>

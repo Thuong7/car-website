@@ -1,97 +1,138 @@
 "use client";
 
-import Image from "next/image";
-import { Car } from "@/component/types";
+import { useState } from "react";
 import "./FormBox.css";
+
 type Props = {
-  cars: Car[];
-  selectedCar: Car | null;
-  setSelectedCar: (car: Car | null) => void;
+  hideTitle?: boolean; // 👈 thêm dòng này
 };
 
-export default function FormWithPreview({
-  cars,
-  selectedCar,
-  setSelectedCar,
-}: Props) {
+export default function FormBox({ hideTitle }: Props) {
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const [form, setForm] = useState({
+    name: "",
+    phone: "",
+    car: "",
+    type: "Trả góp",
+  });
+
+  const isValidPhone = (phone: string) => {
+    return /^(0|\+84)[0-9]{9}$/.test(phone);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (loading) return;
+
+    if (!form.name.trim()) {
+      setMessage("Vui lòng nhập họ tên");
+      return;
+    }
+
+    if (!isValidPhone(form.phone)) {
+      setMessage("Số điện thoại không hợp lệ");
+      return;
+    }
+
+    setLoading(true);
+    setMessage("");
+
+    try {
+      const res = await fetch("/api/send-mail", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(form),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        setMessage("Gửi thành công!");
+        setForm({
+          name: "",
+          phone: "",
+          car: "",
+          type: "Trả góp",
+        });
+      } else {
+        setMessage("Gửi thất bại!");
+      }
+    } catch {
+      setMessage("Lỗi server!");
+    }
+
+    setLoading(false);
+  };
+
   return (
-    <section className="form-preview">
+    <form className="form-box" onSubmit={handleSubmit}>
       
-      <h2 className="sr-only">
-        Nhận báo giá và đăng ký lái thử xe Mitsubishi
-      </h2>
+      {!hideTitle && <h3>NHẬN BÁO GIÁ & LÁI THỬ XE</h3>}
 
-      <div className="preview-box">
-        <Image
-          src={selectedCar ? selectedCar.image : "/avatar.jpg"}
-          alt={
-            selectedCar
-              ? `Hình ảnh xe ${selectedCar.name} Mitsubishi`
-              : "Nhân viên tư vấn Mitsubishi Đà Nẵng"
-          }
-          width={180}
-          height={180}
-          priority
-        />
+      <div className="form-radio">
+        <label>
+          <input
+            type="radio"
+            value="Trả góp"
+            checked={form.type === "Trả góp"}
+            onChange={(e) =>
+              setForm({ ...form, type: e.target.value })
+            }
+          />
+          Trả góp
+        </label>
 
-        <p className="dealer">MITSUBISHI SAVICO ĐÀ NẴNG</p>
-
-        <p className="name">
-          {selectedCar ? selectedCar.name : "NVKD - Hồ Ngọc Ly"}
-        </p>
+        <label>
+          <input
+            type="radio"
+            value="Trả thẳng"
+            checked={form.type === "Trả thẳng"}
+            onChange={(e) =>
+              setForm({ ...form, type: e.target.value })
+            }
+          />
+          Trả thẳng
+        </label>
       </div>
 
-      <form className="form-box">
-        <h3>NHẬN BÁO GIÁ & LÁI THỬ XE</h3>
+      <input
+        placeholder="Họ và tên"
+        value={form.name}
+        onChange={(e) =>
+          setForm({ ...form, name: e.target.value })
+        }
+      />
 
-        <fieldset className="form-radio">
-          <legend className="sr-only">Hình thức thanh toán</legend>
+      <input
+        placeholder="Số điện thoại"
+        value={form.phone}
+        onChange={(e) =>
+          setForm({ ...form, phone: e.target.value })
+        }
+      />
 
-          <label>
-            <input type="radio" name="payment" defaultChecked />
-            Trả góp
-          </label>
+      <select
+        value={form.car}
+        onChange={(e) =>
+          setForm({ ...form, car: e.target.value })
+        }
+      >
+        <option value="">Xe muốn mua</option>
+        <option value="XPANDER">XPANDER</option>
+        <option value="TRITON">TRITON</option>
+        <option value="ATTRAGE">ATTRAGE</option>
+      </select>
 
-          <label>
-            <input type="radio" name="payment" />
-            Trả thẳng
-          </label>
-        </fieldset>
+      {message && <p className="form-message">{message}</p>}
 
-        <input
-          type="text"
-          placeholder="Họ và tên"
-          name="name"
-          required
-        />
-
-        <input
-          type="tel"
-          placeholder="Số điện thoại"
-          name="phone"
-          required
-        />
-
-        <select
-          name="car"
-          defaultValue=""
-          onChange={(e) =>
-            setSelectedCar(
-              cars.find((c) => c.slug === e.target.value) || null
-            )
-          }
-        >
-          <option value="">Xe muốn mua</option>
-
-          {cars.map((car) => (
-            <option key={car.id} value={car.slug}>
-              {car.name}
-            </option>
-          ))}
-        </select>
-
-        <button type="submit">GỬI YÊU CẦU</button>
-      </form>
-    </section>
+      <button type="submit" disabled={loading}>
+        {loading ? "ĐANG GỬI..." : "GỬI YÊU CẦU"}
+      </button>
+    </form>
   );
 }

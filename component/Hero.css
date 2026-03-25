@@ -120,6 +120,7 @@
 .icon svg{
   height: 25px;
   width: 25px;
+  color: #fff;
 }
 .icon:nth-child(1) svg {
   transform: translateY(2px) translateX(2px);
@@ -127,12 +128,15 @@
 .icon:nth-child(2) svg {
   transform: translateX(3px) translateY(2.5px);
 }
+.icon:nth-child(3) svg {
+  transform: translateX(6px) translateY(2.5px);
+}
 .icons{
   display: flex;
   flex-direction: row;
   gap: 12px;
 }
-/* FORM */
+
 .form {
   display: flex;
   gap: 15px;
@@ -167,7 +171,6 @@
   font-size: 13px;
   margin-top: 5px;
 }
-/* ================= RESPONSIVE ================= */
 @media (max-width: 1024px) {
   .hero-img {
     height: 400px;
@@ -196,6 +199,9 @@
   .form button {
     width: 100%;
   }
+  .form input{
+    padding: 14px 16px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -214,5 +220,8 @@
 
   .form button {
     width: 100%;
+  }
+    .form input{
+    padding: 14px 16px;
   }
 }
