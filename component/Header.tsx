@@ -125,12 +125,18 @@ export default function Header() {
               className="test-drive"
               onClick={(e) => {
                 e.stopPropagation();
-                setOpenPopup(true); // 👈 đúng cái cần mở
+                setOpenPopup(true);
               }}
             >
               ĐĂNG KÝ LÁI THỬ
             </button>
-              <FormPopup open={openPopup} onClose={() => setOpenPopup(false)} />
+             <FormPopup
+              open={openPopup}
+              onClose={() => setOpenPopup(false)}
+              cars={cars}
+              selectedCar={null}
+              setSelectedCar={() => {}}
+/>
           </div>
         </nav>
       </header>

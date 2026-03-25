@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import FormPopup from "./FormModal";
+import { cars } from "@/component/data";
 
 export default function PopupManager() {
   const [open, setOpen] = useState(false);
@@ -27,5 +28,13 @@ export default function PopupManager() {
     localStorage.setItem("popup_closed_time", Date.now().toString());
   };
 
-  return <FormPopup open={open} onClose={handleClose} />;
+  return (
+    <FormPopup
+      open={open}
+      onClose={handleClose}
+      cars={cars}
+      selectedCar={null}
+      setSelectedCar={() => {}}
+    />
+  );
 }

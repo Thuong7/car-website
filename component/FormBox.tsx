@@ -2,12 +2,21 @@
 
 import { useState } from "react";
 import "./FormBox.css";
+import { Car } from "@/component/types";
 
 type Props = {
-  hideTitle?: boolean; // 👈 thêm dòng này
+  hideTitle?: boolean;
+  cars: Car[];
+  selectedCar: Car | null;
+  setSelectedCar: (car: Car | null) => void;
 };
 
-export default function FormBox({ hideTitle }: Props) {
+export default function FormBox({
+  hideTitle,
+  cars,
+  selectedCar,
+  setSelectedCar,
+}: Props) {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -37,6 +46,11 @@ export default function FormBox({ hideTitle }: Props) {
       return;
     }
 
+    if (!form.car) {
+      setMessage("Vui lòng chọn xe");
+      return;
+    }
+
     setLoading(true);
     setMessage("");
 
@@ -59,6 +73,7 @@ export default function FormBox({ hideTitle }: Props) {
           car: "",
           type: "Trả góp",
         });
+        setSelectedCar(null);
       } else {
         setMessage("Gửi thất bại!");
       }
@@ -71,9 +86,9 @@ export default function FormBox({ hideTitle }: Props) {
 
   return (
     <form className="form-box" onSubmit={handleSubmit}>
-      
       {!hideTitle && <h3>NHẬN BÁO GIÁ & LÁI THỬ XE</h3>}
 
+      {/* TYPE */}
       <div className="form-radio">
         <label>
           <input
@@ -100,6 +115,7 @@ export default function FormBox({ hideTitle }: Props) {
         </label>
       </div>
 
+      {/* INPUT */}
       <input
         placeholder="Họ và tên"
         value={form.name}
@@ -116,20 +132,33 @@ export default function FormBox({ hideTitle }: Props) {
         }
       />
 
+      {/* SELECT CAR (DYNAMIC) */}
       <select
-        value={form.car}
-        onChange={(e) =>
-          setForm({ ...form, car: e.target.value })
-        }
+        value={selectedCar?.slug || ""}
+        onChange={(e) => {
+          const selected =
+            cars.find((c) => c.slug === e.target.value) || null;
+
+          setSelectedCar(selected);
+
+          setForm({
+            ...form,
+            car: selected?.name || "",
+          });
+        }}
       >
         <option value="">Xe muốn mua</option>
-        <option value="XPANDER">XPANDER</option>
-        <option value="TRITON">TRITON</option>
-        <option value="ATTRAGE">ATTRAGE</option>
+        {cars.map((car) => (
+          <option key={car.id} value={car.slug}>
+            {car.name}
+          </option>
+        ))}
       </select>
 
+      {/* MESSAGE */}
       {message && <p className="form-message">{message}</p>}
 
+      {/* BUTTON */}
       <button type="submit" disabled={loading}>
         {loading ? "ĐANG GỬI..." : "GỬI YÊU CẦU"}
       </button>

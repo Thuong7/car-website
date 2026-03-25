@@ -4,14 +4,24 @@ import Image from "next/image";
 import FormBox from "./FormBox";
 import "./FormBox.css";
 import { useEffect } from "react";
+import { Car } from "@/component/types";
 
 type Props = {
   open: boolean;
   onClose: () => void;
+
+  cars: Car[];
+  selectedCar: Car | null;
+  setSelectedCar: (car: Car | null) => void;
 };
 
-export default function FormPopup({ open, onClose }: Props) {
-
+export default function FormPopup({
+  open,
+  onClose,
+  cars,
+  selectedCar,
+  setSelectedCar,
+}: Props) {
   useEffect(() => {
     if (open) {
       document.body.style.overflow = "hidden";
@@ -52,7 +62,13 @@ export default function FormPopup({ open, onClose }: Props) {
           <p>
             Quý khách vui lòng điền thông tin để nhận báo giá nhanh nhất.
           </p>
-          <FormBox hideTitle />
+
+          <FormBox
+            hideTitle
+            cars={cars}
+            selectedCar={selectedCar}
+            setSelectedCar={setSelectedCar}
+          />
         </div>
       </div>
     </div>

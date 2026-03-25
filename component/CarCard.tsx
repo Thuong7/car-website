@@ -12,6 +12,7 @@ type Props = {
 
 export default function CarCard({ car }: Props) {
   const [openPopup, setOpenPopup] = useState(false);
+  const [selectedCar, setSelectedCar] = useState<Car | null>(car);
 
   return (
     <>
@@ -39,6 +40,7 @@ export default function CarCard({ car }: Props) {
             className="btn red"
             onClick={(e) => {
               e.stopPropagation();
+              setSelectedCar(car); // đảm bảo đúng xe
               setOpenPopup(true);
             }}
           >
@@ -54,6 +56,9 @@ export default function CarCard({ car }: Props) {
       <FormPopup
         open={openPopup}
         onClose={() => setOpenPopup(false)}
+        cars={[car]} 
+        selectedCar={selectedCar}
+        setSelectedCar={setSelectedCar}
       />
     </>
   );
