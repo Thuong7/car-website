@@ -1,0 +1,125 @@
+.car-section {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 16px;
+}
+
+/* ===== TITLE ===== */
+.section-title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 50px;
+}
+
+.section-title h2 {
+  padding: 0 25px;
+  font-size: 26px;
+  font-weight: 800;
+  margin: 0 auto;
+}
+
+.section-title::before,
+.section-title::after {
+  content: "";
+  flex: 1;
+  height: 2px;
+  background: #ddd;
+}
+
+/* ===== GRID ===== */
+.car-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 50px;
+  align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .car-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .car-grid {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+
+  .car-section {
+    padding: 20px 10px;
+  }
+
+  .car-card img {
+    width: 100%;
+  }
+}
+
+/* ===== CARD ===== */
+.car-card {
+  padding: 0;
+}
+
+.car-card img {
+  width: 110%;
+  max-height: 220px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
+
+.car-card h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-top: 20px;
+  text-align: left;
+}
+.car-card h3 a{
+  text-decoration: none;
+  color: #1f1f1f;
+  font-weight: 600;
+}
+.price {
+  color: #bf0202;
+  font-weight: bold;
+  font-size: 15px;
+  margin: 8px 0 16px;
+  text-align: left;
+}
+
+/* ===== BUTTONS ===== */
+.actions {
+  display: flex;
+  gap: 12px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: 0.2s;
+}
+
+.btn.red {
+  background: #d60000;
+  color: #fff;
+}
+
+.btn.red:hover {
+  background: #b80000;
+}
+
+.btn.gray {
+  border: 1px solid #999;
+  color: #333;
+}
+
+.btn.gray:hover {
+  background: #f2f2f2;
+}

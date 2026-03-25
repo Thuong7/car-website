@@ -1,0 +1,162 @@
+/* ===== GRID ===== */
+.car-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  align-items: start;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+
+/* ===== FORM SECTION ===== */
+.form-preview {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 50px;
+  border: #d8d8d8 1px solid;
+  background: #ffffff;
+  padding: 0 25px;
+  border-radius: 16px;
+}
+
+/* ===== LEFT PREVIEW ===== */
+.preview-box {
+  width: 35%;
+  text-align: center;
+}
+
+/* fix Next Image */
+.preview-box span {
+  display: inline-block;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.preview-box img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.dealer {
+  font-size: 13px;
+  color: #666;
+  margin-top: 10px;
+}
+
+.name {
+  font-weight: bold;
+  color: #d60000;
+}
+
+/* ===== FORM ===== */
+.form-box {
+  width: 100%;
+  background: #fff;
+  padding: 30px 0;
+  border-radius: 16px;
+  border: #d8d8d8 1px solid;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-box h2 {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 800;
+}
+.form-box-prv {
+  width: 100%;
+  background: #fff;
+  padding: 30 0px;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-box-prv h2 {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+/* ===== RADIO ===== */
+.form-radio {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.form-radio label {
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* ===== INPUT ===== */
+.form-box input,
+.form-box-prv select,
+.form-box-prv input,
+.form-box select {
+  padding: 14px 18px;
+  border-radius: 999px;
+  border: 1px solid #ddd;
+  outline: none;
+  transition: 0.2s;
+}
+
+.form-box input:focus,
+.form-box-prv select:focus,
+.form-box input:focus,
+.form-box-prv select:focus {
+  border-color: #d60000;
+  box-shadow: 0 0 0 3px rgba(214,0,0,0.1);
+}
+
+/* ===== BUTTON ===== */
+.form-box button,
+.form-box-prv button {
+  margin: 10px auto 0;
+  padding: 12px 30px;
+  background: #d60000;
+  color: #fff;
+  border-radius: 999px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.form-box button:hover,
+.form-box-prv button:hover {
+  background: #b80000;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .car-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-preview {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .preview-box {
+    width: 100%;
+    display: none;
+  }
+
+  .form-box {
+    width: 100%;
+  }
+}
