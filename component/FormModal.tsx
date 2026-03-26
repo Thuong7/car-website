@@ -42,9 +42,7 @@ export default function FormPopup({
         className="popup-container"
         onClick={(e) => e.stopPropagation()}
       >
-        <button className="popup-close" onClick={onClose}>
-          ✕
-        </button>
+        
 
         <div className="popup-banner">
           <Image
@@ -59,6 +57,9 @@ export default function FormPopup({
         </div>
 
         <div className="popup-content">
+          <button className="popup-close" onClick={onClose}>
+          ✕
+        </button>
           <h2>NHẬN BÁO GIÁ LĂN BÁNH</h2>
           <p>
             Quý khách vui lòng điền thông tin để nhận báo giá nhanh nhất.

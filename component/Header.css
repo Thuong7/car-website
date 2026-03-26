@@ -71,7 +71,6 @@ body {
 .hotline b{
   color: #d60000;
 }
-/* NAVBAR */
 .navbar {
   background: #000;
 }
@@ -101,7 +100,10 @@ body {
 .navbar li:hover a {
   color: #ff3b3b;
 }
-
+.navbar a.active {
+  color: #d60000;
+  font-weight: 700;
+}
 .test-drive {
   background: #d60000;
   color: #fff;

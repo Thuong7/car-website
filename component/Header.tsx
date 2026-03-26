@@ -7,14 +7,17 @@ import Link from "next/link";
 import Image from "next/image";
 import "./Header.css";
 import FormPopup from "./FormModal";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
   const [openSidebar, setOpenSidebar] = useState(false);
   const [openPopup, setOpenPopup] = useState(false);
-
-  // ===== LOCK SCROLL =====
+  const isActive = (path: string) => {
+  return pathname === path || pathname.startsWith(path + "/");
+};
   useEffect(() => {
     if (!open) return;
 
@@ -109,12 +112,15 @@ export default function Header() {
           <div className="container navbar-inner">
             <ul>
               <li>
-                <Link href="/">TRANG CHỦ</Link>
+                <Link href="/" className={isActive("/") ? "active" : ""}>TRANG CHỦ</Link>
               </li>
 
               {cars.map((car) => (
                 <li key={car.id}>
-                  <Link href={`/car/${car.slug}`}>
+                  <Link
+                    href={`/car/${car.slug}`}
+                    className={isActive(`/car/${car.slug}`) ? "active" : ""}
+                  >
                     {car.name.replace("MITSUBISHI ", "")}
                   </Link>
                 </li>
