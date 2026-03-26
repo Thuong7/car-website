@@ -12,7 +12,7 @@ export default function FullImageBlock({ data }: Props) {
       <div className={styles.container}>
         <img src={data.image} alt="" />
         {data.caption && (
-          <figcaption>{data.caption}</figcaption>
+          <figcaption style={{ whiteSpace: "pre-line" }}>{data.caption}</figcaption>
         )}
       </div>
     </section>

@@ -202,6 +202,12 @@
   .form input{
     padding: 14px 16px;
   }
+  .left-info,
+  .middle,
+  .right-info {
+    margin: 0 auto;
+    width: 100%;
+  }
 }
 
 @media (max-width: 768px) {
@@ -223,5 +229,11 @@
   }
     .form input{
     padding: 14px 16px;
+  }
+  .left-info,
+  .middle,
+  .right-info {
+    margin: 0 auto;
+    width: 100%;
   }
 }
