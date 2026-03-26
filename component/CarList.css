@@ -62,7 +62,8 @@
 }
 
 .car-card img {
-  width: 110%;
+  width: 100%;
+  transform: scale(1.1);
   max-height: 220px;
   object-fit: contain;
   display: block;

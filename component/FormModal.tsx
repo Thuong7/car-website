@@ -52,6 +52,7 @@ export default function FormPopup({
             alt="Mitsubishi Đà Nẵng - Nhận báo giá lăn bánh"
             width={600}
             height={200}
+            style={{ width: "90%", height: "auto" }}
             priority
             sizes="(max-width: 768px) 100vw, 600px"
           />

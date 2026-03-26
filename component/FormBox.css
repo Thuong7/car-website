@@ -183,26 +183,24 @@ button:disabled {
 .popup-overlay {
   position: fixed;
   inset: 0;
-  width: 100%;
-  height: 100dvh;
   background: rgba(0,0,0,0.5);
+  width: 100vw;          
+  max-width: 100vw;
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 20px 0;
-  overflow-y: auto;
-  overflow-x: hidden;
+  padding: 16px; 
   box-sizing: border-box;
+  z-index: 9999;
+ animation: popupShow 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .popup-container {
-  background: #fff;
-  width: calc(100% - 32px); 
+  width: 100%;
   max-width: 600px;
-  border-radius: 12px;
-  position: relative;
-  animation: fadeIn 0.3s ease;
-  margin: 0 auto; 
+  margin: 0 auto;
+  background-color: #fff;
+  box-sizing: border-box;
 }
 
 .popup-close {
@@ -250,7 +248,23 @@ button:disabled {
 }
 @media (max-height: 768px) {
   .popup-overlay {
-    align-items: flex-start;
-    padding: 20px 0;
+    align-items: center;
+    padding: 20px;
+  }
+}
+@keyframes popupShow {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) scale(0.96);
+  }
+
+  60% {
+    opacity: 1;
+    transform: translateY(-5px) scale(1.02);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
