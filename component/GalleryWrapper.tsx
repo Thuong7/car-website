@@ -9,7 +9,7 @@ export default function GalleryWrapper() {
   useEffect(() => {
   const fetchData = async () => {
     try {
-      const res = await fetch("/api/gallery");
+      const res = await fetch("/api/gallery", {cache: "no-store",});
 
       if (!res.ok) {
         console.error("API ERROR");
