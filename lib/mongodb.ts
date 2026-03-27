@@ -6,14 +6,15 @@ let client: MongoClient;
 let clientPromise: Promise<MongoClient>;
 
 declare global {
-  var _mongoClientPromise: Promise<MongoClient>;
+  var _mongoClientPromise: Promise<MongoClient> | undefined;
 }
 
 if (!global._mongoClientPromise) {
   client = new MongoClient(uri);
-  global._mongoClientPromise = client.connect();
+  clientPromise = client.connect(); 
+  global._mongoClientPromise = clientPromise;
+} else {
+  clientPromise = global._mongoClientPromise;
 }
-
-clientPromise = global._mongoClientPromise;
 
 export default clientPromise;

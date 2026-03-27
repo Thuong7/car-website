@@ -2,7 +2,7 @@ import clientPromise from "@/lib/mongodb";
 import { NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
 
-// GET
+export const revalidate = 0; 
 export async function GET() {
   try {
     const client = await clientPromise;
