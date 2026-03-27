@@ -8,6 +8,8 @@ import FullImageBlock from "@/component/car/FullImageBlock";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
+import { unstable_cache } from "next/cache";
+
 export const revalidate = 60;
 
 // =======================
@@ -20,12 +22,21 @@ type Props = {
 // =======================
 // HELPER: GET CAR
 // =======================
-async function getCar(slug: string) {
-  const client = await clientPromise;
-  const db = client.db("car-showroom");
+const getCar = unstable_cache(
+  async (slug: string) => {
+    const client = await clientPromise;
+    const db = client.db("car-showroom");
 
-  return db.collection("cars").findOne({ slug });
-}
+    return db.collection("cars").findOne(
+      { slug },
+      { projection: { name: 1, sections: 1 } }
+    );
+  },
+  ["car-detail"],
+  {
+    revalidate: 300, 
+  }
+);
 
 // =======================
 // STATIC PARAMS (FIX BUG)
