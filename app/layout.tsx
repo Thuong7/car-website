@@ -1,7 +1,7 @@
 import "./globals.css";
 import Header from "@/component/Header";
 import Footer from "@/component/Footer";
-import Gallery from "@/component/Gallery";
+import GalleryWrapper from "@/component/GalleryWrapper";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -55,7 +55,7 @@ export default function RootLayout({
       <body>
         <Header />
         <main>{children}</main> 
-        <Gallery/>
+        <GalleryWrapper />
         <Footer />
       </body>
     </html>

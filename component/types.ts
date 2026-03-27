@@ -6,17 +6,6 @@ export type Car = {
   price: string;
 };
 
-export type CarDetail = {
-  slug: string;
-  name: string;
-  heroImage: string;
-  gallery: string[];
-  priceList: {
-    version: string;
-    price: string;
-  }[];
-  promo: string[];
-};
 export type Description = {
   title: string;
   heading: string;
@@ -50,6 +39,17 @@ export type CarDetails = {
 };
 export type Section =
   | {
+      type: "hero";
+      data: {
+        gallery: string[];
+        priceList: {
+          version: string;
+          price: string;
+        }[];
+        promo: string[];
+      };
+    }
+  | {
       type: "fullImage";
       data: {
         image: string;
@@ -61,15 +61,21 @@ export type Section =
       data: {
         title: string;
         heading: string;
-        content: string;
+        content: string | null;
       };
     }
   | {
       type: "features";
       data: {
         image: string;
-        title: string;
+        title: string | null;
       }[];
+    }
+    | {
+      type: "gallery";
+      data: {
+        images: string[];
+      };
     };
 
 export type CarDetailContent = {

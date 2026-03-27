@@ -1,46 +1,17 @@
 "use client";
 
-import { useState } from "react";
 import styles from "./Gallery.module.css";
 
-type ImageItem = {
-  id: number;
-  url: string;
+type Props = {
+  images: string[];
 };
 
-const MAX_IMAGES = 12;
-
-export default function Gallery() {
-  const [images, setImages] = useState<ImageItem[]>([
-    { id: 1, url: "/demo1.jpg" },
-    { id: 2, url: "/demo2.jpg" },
-    { id: 3, url: "/demo3.jpg" },
-  ]);
-
-  const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files) return;
-
-    const newImages: ImageItem[] = Array.from(files).map((file) => ({
-      id: Date.now() + Math.random(),
-      url: URL.createObjectURL(file),
-    }));
-
-    setImages((prev) => {
-      let updated = [...prev, ...newImages];
-      if (updated.length > MAX_IMAGES) {
-        updated = updated.slice(updated.length - MAX_IMAGES);
-      }
-      return updated;
-    });
-  };
-
+export default function Gallery({ images }: Props) {
   return (
     <section className={styles.gallery}>
       <div className={styles.containergallery}>
 
         <div className={styles.topInfo}>
-
           <div className={styles.avatar}>
             <img src="/avatar.jpg" alt="" />
           </div>
@@ -66,13 +37,13 @@ export default function Gallery() {
             <p>✔ Đăng ký lái thử xe.</p>
             <p>✔ Nhận báo giá lăn bánh.</p>
           </div>
-
         </div>
 
+        {/* 🔥 chỉ render ảnh */}
         <div className={styles.grid}>
-          {images.map((img) => (
-            <div key={img.id} className={styles.card}>
-              <img src={img.url} alt="" />
+          {images.map((url, i) => (
+            <div key={i} className={styles.card}>
+              <img src={url} alt="" />
             </div>
           ))}
         </div>

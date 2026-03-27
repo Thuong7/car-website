@@ -1,12 +1,13 @@
 import { Feature } from "@/component/types";
 import styles from "./Carslug.module.css";
+import Image from "next/image";
 
 type Props = {
   features: Feature[];
 };
 
 export default function FeatureGrid({ features }: Props) {
-  if (!features) return null; 
+  if (!features) return null;
 
   return (
     <section className={styles.features}>
@@ -14,8 +15,15 @@ export default function FeatureGrid({ features }: Props) {
         <div className={styles.grid}>
           {features.map((item, i) => (
             <div key={i} className={styles.item}>
-              <img src={item.image} alt={item.title} />
-              <p style={{ whiteSpace: "pre-line" }}>{item.title}</p>
+              <Image
+                src={item.image}
+                alt={item.title || "feature"}
+                width={300}
+                height={200}
+              />
+              <p style={{ whiteSpace: "pre-line" }}>
+                {item.title}
+              </p>
             </div>
           ))}
         </div>

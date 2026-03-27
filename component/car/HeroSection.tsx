@@ -1,24 +1,36 @@
 "use client";
 
 import Image from "next/image";
-import { CarDetail } from "@/component/types";
 import { useState, useEffect } from "react";
 import "@/component/car/HeroSection.css";
 
+type HeroData = {
+  name: string;
+  gallery: string[];
+  priceList: {
+    version: string;
+    price: string;
+  }[];
+  promo: string[];
+};
+
 type Props = {
-  car: CarDetail;
+  car: HeroData;
 };
 
 export default function HeroSection({ car }: Props) {
   // ===== STATE =====
+  const gallery = car.gallery || [];
   const [index, setIndex] = useState(0);
-  const [mainImage, setMainImage] = useState(car.gallery[0]);
+  const [mainImage, setMainImage] = useState(
+    gallery[0] || "/no-image.png"
+  );
   const [lightboxOpen, setLightboxOpen] = useState(false);
 
   const [scale, setScale] = useState(1);
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
-  // ===== LOCK SCROLL (FIX CHUẨN) =====
+  // ===== LOCK SCROLL (GIỮ NGUYÊN) =====
   useEffect(() => {
     if (!lightboxOpen) return;
 
@@ -64,8 +76,8 @@ export default function HeroSection({ car }: Props) {
   const VISIBLE_WIDTH = 560;
 
   const totalWidth =
-    car.gallery.length * ITEM_WIDTH +
-    (car.gallery.length - 1) * GAP;
+    gallery.length * ITEM_WIDTH +
+    (gallery.length - 1) * GAP;
 
   const centerOffset = VISIBLE_WIDTH / 2 - ITEM_WIDTH / 2;
   const maxTranslate = totalWidth - VISIBLE_WIDTH;
@@ -90,13 +102,13 @@ export default function HeroSection({ car }: Props) {
 
     if (Math.abs(diff) > 50) {
       if (diff > 0) {
-        const newIndex = Math.min(index + 1, car.gallery.length - 1);
+        const newIndex = Math.min(index + 1, gallery.length - 1);
         setIndex(newIndex);
-        setMainImage(car.gallery[newIndex]);
+        setMainImage(gallery[newIndex]);
       } else {
         const newIndex = Math.max(index - 1, 0);
         setIndex(newIndex);
-        setMainImage(car.gallery[newIndex]);
+        setMainImage(gallery[newIndex]);
       }
       isDragging = false;
     }
@@ -107,7 +119,7 @@ export default function HeroSection({ car }: Props) {
   };
 
   // ===== ZOOM =====
-  const handleWheel = (e: any) => {
+  const handleWheel = (e: React.WheelEvent) => {
     e.preventDefault();
     const newScale = Math.min(Math.max(scale + e.deltaY * -0.001, 1), 4);
     setScale(newScale);
@@ -116,7 +128,7 @@ export default function HeroSection({ car }: Props) {
   let start = { x: 0, y: 0 };
   let dragging = false;
 
-  const handleMouseDown = (e: any) => {
+  const handleMouseDown = (e: React.MouseEvent) => {
     dragging = true;
     start = {
       x: e.clientX - position.x,
@@ -124,7 +136,7 @@ export default function HeroSection({ car }: Props) {
     };
   };
 
-  const handleMouseMove = (e: any) => {
+  const handleMouseMove = (e: React.MouseEvent) => {
     if (!dragging) return;
 
     setPosition({
@@ -182,7 +194,7 @@ export default function HeroSection({ car }: Props) {
               onClick={() => {
                 const newIndex = Math.max(index - 1, 0);
                 setIndex(newIndex);
-                setMainImage(car.gallery[newIndex]);
+                setMainImage(gallery[newIndex]);
               }}
             >
               ‹
@@ -199,7 +211,7 @@ export default function HeroSection({ car }: Props) {
               onMouseLeave={handleEnd}
             >
               <div className="gallery-track">
-                {car.gallery.map((img, i) => (
+                {gallery.map((img: string, i: number) => (
                   <Image
                     key={i}
                     src={img}
@@ -221,10 +233,10 @@ export default function HeroSection({ car }: Props) {
               onClick={() => {
                 const newIndex = Math.min(
                   index + 1,
-                  car.gallery.length - 1
+                  gallery.length - 1
                 );
                 setIndex(newIndex);
-                setMainImage(car.gallery[newIndex]);
+                setMainImage(gallery[newIndex]);
               }}
             >
               ›
@@ -232,6 +244,7 @@ export default function HeroSection({ car }: Props) {
           </div>
         </div>
 
+        {/* RIGHT (GIỮ NGUYÊN ICON 100%) */}
         <div className="hero-right">
           <h2>{car.name}</h2>
           <h3>BẢNG GIÁ XE {car.name}</h3>
@@ -243,8 +256,9 @@ export default function HeroSection({ car }: Props) {
               </li>
             ))}
           </ul>
+
           <div className="promo">
-            {car.promo.map((p, i) => (
+            {car.promo.map((p: string, i: number) => (
               <p key={i}>{p}</p>
             ))}
           </div>
@@ -268,9 +282,9 @@ export default function HeroSection({ car }: Props) {
         </div>
       </div>
 
+      {/* LIGHTBOX giữ nguyên */}
       {lightboxOpen && (
         <div className="lightbox">
-
           <button
             className="close"
             onClick={() => {
@@ -287,7 +301,7 @@ export default function HeroSection({ car }: Props) {
             onClick={() => {
               const newIndex = Math.max(index - 1, 0);
               setIndex(newIndex);
-              setMainImage(car.gallery[newIndex]);
+              setMainImage(gallery[newIndex]);
             }}
           >
             ‹
@@ -317,21 +331,20 @@ export default function HeroSection({ car }: Props) {
             onClick={() => {
               const newIndex = Math.min(
                 index + 1,
-                car.gallery.length - 1
+                gallery.length - 1
               );
               setIndex(newIndex);
-              setMainImage(car.gallery[newIndex]);
+              setMainImage(gallery[newIndex]);
             }}
           >
             ›
           </button>
 
           <div className="counter">
-            {index + 1} / {car.gallery.length}
+            {index + 1} / {gallery.length}
           </div>
         </div>
       )}
     </section>
-    
   );
 }
