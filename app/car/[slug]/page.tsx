@@ -10,51 +10,96 @@ import type { Metadata } from "next";
 
 export const revalidate = 60;
 
-// ⚠️ FIX: params là Promise (Next mới)
+// =======================
+// TYPES
+// =======================
 type Props = {
   params: Promise<{ slug: string }>;
 };
 
 // =======================
-// STATIC PARAMS
+// HELPER: GET CAR
+// =======================
+async function getCar(slug: string) {
+  const client = await clientPromise;
+  const db = client.db("car-showroom");
+
+  return db.collection("cars").findOne({ slug });
+}
+
+// =======================
+// STATIC PARAMS (FIX BUG)
 // =======================
 export async function generateStaticParams() {
   const client = await clientPromise;
   const db = client.db("car-showroom");
 
-  const cars = await db.collection("cars").find().toArray();
+  const cars = await db
+    .collection("cars")
+    .find({}, { projection: { slug: 1 } })
+    .toArray();
 
-  return cars.map((car) => ({
-    slug: car.slug,
-  }));
+  return cars
+    .filter((car) => typeof car.slug === "string")
+    .map((car) => ({
+      slug: car.slug,
+    }));
 }
 
 // =======================
 // SEO
 // =======================
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params; // 🔥 FIX
+  const { slug } = await params;
 
-  const client = await clientPromise;
-  const db = client.db("car-showroom");
+  const car = await getCar(slug);
 
-  const carDetail = await db
-    .collection("cars")
-    .findOne({ slug });
-
-  console.log("PARAM:", slug);
-
-  if (!carDetail) {
-    return { title: "Xe không tồn tại" };
+  if (!car) {
+    return {
+      title: "Xe không tồn tại",
+      robots: { index: false },
+    };
   }
 
-  const descSection = carDetail.sections?.find(
+  const descSection = car.sections?.find(
     (s: any) => s.type === "description"
   );
 
+  const description =
+    descSection?.data?.content?.slice(0, 160) ||
+    `Giá xe ${car.name} mới nhất, ưu đãi hấp dẫn, hỗ trợ trả góp.`;
+
+  const heroImage =
+    car.sections?.find((s: any) => s.type === "hero")?.data?.gallery?.[0] ||
+    "/banner.jpg";
+
   return {
-    title: carDetail.name,
-    description: descSection?.data?.content || "",
+    title: `${car.name} | Mitsubishi Đà Nẵng`,
+    description,
+
+    openGraph: {
+      title: car.name,
+      description,
+      url: `https://yourdomain.com/car/${slug}`,
+      images: [
+        {
+          url: heroImage,
+          width: 1200,
+          height: 630,
+        },
+      ],
+    },
+
+    twitter: {
+      card: "summary_large_image",
+      title: car.name,
+      description,
+    },
+
+    robots: {
+      index: true,
+      follow: true,
+    },
   };
 }
 
@@ -62,54 +107,58 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 // PAGE
 // =======================
 export default async function Page({ params }: Props) {
-  const { slug } = await params; // 🔥 FIX
+  const { slug } = await params;
 
-  const client = await clientPromise;
-  const db = client.db("car-showroom");
+  const car = await getCar(slug);
 
-  const carDetail = await db
-    .collection("cars")
-    .findOne({ slug });
-  console.log("CAR DETAIL:", carDetail);
-  if (!carDetail) return notFound();
+  if (!car) return notFound();
 
-  // HERO
-  const heroBlock = carDetail.sections?.find(
+  const heroBlock = car.sections?.find(
     (s: any) => s.type === "hero"
   );
 
   return (
     <>
+      {/* HERO */}
       <HeroSection
         car={{
-          name: carDetail.name,
+          name: car.name,
           gallery: heroBlock?.data?.gallery || [],
           priceList: heroBlock?.data?.priceList || [],
           promo: heroBlock?.data?.promo || [],
         }}
       />
 
-      {carDetail.sections?.map((section: any, index: number) => {
-        if (section.type === "fullImage") {
-          return (
-            <FullImageBlock key={index} data={section.data} />
-          );
-        }
+      {/* CONTENT */}
+      {car.sections?.map((section: any, index: number) => {
+        switch (section.type) {
+          case "fullImage":
+            return <FullImageBlock key={index} data={section.data} />;
 
-        if (section.type === "description") {
-          return (
-            <DescriptionBlock key={index} data={section.data} />
-          );
-        }
+          case "description":
+            return <DescriptionBlock key={index} data={section.data} />;
 
-        if (section.type === "features") {
-          return (
-            <FeatureGrid key={index} features={section.data} />
-          );
-        }
+          case "features":
+            return <FeatureGrid key={index} features={section.data} />;
 
-        return null;
+          default:
+            return null;
+        }
       })}
+
+      {/* JSON-LD SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            name: car.name,
+            description: car.name,
+            brand: "Mitsubishi",
+          }),
+        }}
+      />
     </>
   );
 }
