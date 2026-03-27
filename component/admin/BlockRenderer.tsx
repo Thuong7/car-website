@@ -4,6 +4,7 @@ import ImageBlock from "./blocks/ImageBlock";
 import FeaturesBlock from "./blocks/FeaturesBlock";
 import HeroBlock from "./blocks/HeroBlock";
 import GalleryBlock from "./blocks/GalleryBlock";
+import VideoBlock from "./blocks/VideoBlock";
 import "./Builder.css";
 
 type Props = {
@@ -35,6 +36,10 @@ export default function BlockRenderer({ block, onChange, onDelete }: Props) {
 
       {block.type === "gallery" && (
         <GalleryBlock data={block.data} onChange={onChange} />
+      )}
+
+      {block.type === "video" && (
+        <VideoBlock data={block.data} onChange={onChange} />
       )}
     </div>
   );

@@ -76,7 +76,17 @@ export type Section =
       data: {
         images: string[];
       };
+    }
+    | {
+      type: "video";
+      data: {
+        title?: string;
+        url?: string;
+        caption?: string;
+        thumbnail?: string | null;
+      };
     };
+    
 
 export type CarDetailContent = {
   slug: string;

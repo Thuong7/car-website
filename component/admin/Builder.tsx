@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { CarDetailAdmin, SectionWithId } from "@/component/cms-admin";
 import { Section } from "@/component/types";
 import BlockRenderer from "./BlockRenderer";
+import VideoBlock from "./blocks/VideoBlock";
 import "./Builder.css";
 
 type Props = {
@@ -15,7 +16,7 @@ type Props = {
 export default function Builder({ data, setData, setIsEditing }: Props) {
   const [cars, setCars] = useState<any[]>([]);
 
-  // 🔥 load list xe
+  // 🔥 load list xe (giữ nguyên)
   useEffect(() => {
     const fetchCars = async () => {
       const res = await fetch("/api/car-detail");
@@ -26,6 +27,7 @@ export default function Builder({ data, setData, setIsEditing }: Props) {
     fetchCars();
   }, []);
 
+  // 🔥 load car
   const loadCar = async (slug: string) => {
     const res = await fetch(`/api/car-detail?slug=${slug}`);
     const car = await res.json();
@@ -45,22 +47,49 @@ export default function Builder({ data, setData, setIsEditing }: Props) {
 
     setIsEditing(true);
   };
-    const handleSave = async () => {
-      // 1. tách gallery ra
+
+  // 🔥 detect mode
+  const isBlog = data.sections.some((s) => s.type === "video");
+  const hasGallery = data.sections.some((s) => s.type === "gallery");
+
+  // 🔥 SAVE (SAFE)
+  const handleSave = async () => {
+    if (!hasGallery && !isBlog && !data.slug) {
+      alert("Thiếu slug");
+      return;
+    }
+
+    try {
+      // ================= BLOG =================
+      if (isBlog) {
+        await fetch("/api/blog", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...data,
+            sections: data.sections,
+          }),
+        });
+
+        alert("Save Blog OK");
+        return;
+      }
+
+      // ================= CAR =================
       const galleryBlock = data.sections.find(
         (s) => s.type === "gallery"
       );
 
       const galleryImages = galleryBlock?.data.images || [];
 
-      // 2. loại gallery khỏi sections
       const cleanSections = data.sections.filter(
         (s) => s.type !== "gallery"
       );
 
-      // 3. save car
       await fetch("/api/car-detail", {
-        method: "POST", // hoặc PUT tuỳ m
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
@@ -70,21 +99,28 @@ export default function Builder({ data, setData, setIsEditing }: Props) {
         }),
       });
 
-      // 4. save gallery riêng
-      await fetch("/api/gallery", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          images: galleryImages,
-        }),
-      });
+      if (hasGallery) {
+        await fetch("/api/gallery", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            images: galleryImages,
+          }),
+        });
+      }
+      console.log(galleryImages);
+      alert("Save Car OK");
+    } catch (err) {
+      console.error(err);
+      alert("Save lỗi");
+    }
+  };
 
-      alert("Save OK");
-    };
-  const addBlock = (type: Section["type"]) => {
-    let newBlock: Section;
+  // 🔥 ADD BLOCK
+  const addBlock = (type: Section["type"] | "video") => {
+    let newBlock: Section | any;
 
     if (type === "hero") {
       newBlock = {
@@ -102,13 +138,22 @@ export default function Builder({ data, setData, setIsEditing }: Props) {
         data: { image: "", caption: null },
       };
     } else if (type === "gallery") {
-        newBlock = {
-          type,
-          data: {
-            images: [],
-          },
-        };
-      }else {
+      newBlock = {
+        type,
+        data: { images: [] },
+      };
+    } else if (type === "video") {
+      // 🔥 BLOG BLOCK
+      newBlock = {
+        type: "video",
+        data: {
+          title: "",
+          url: "",
+          caption: "",
+          thumbnail: null,
+        },
+      };
+    } else {
       newBlock = {
         type,
         data: [],
@@ -126,6 +171,7 @@ export default function Builder({ data, setData, setIsEditing }: Props) {
     });
   };
 
+  // 🔥 UPDATE
   const updateBlock = (id: string, newData: any) => {
     const updated = data.sections.map((s) =>
       s.id === id ? { ...s, data: newData } : s
@@ -137,15 +183,14 @@ export default function Builder({ data, setData, setIsEditing }: Props) {
     });
   };
 
+  // 🔥 DELETE
   const deleteBlock = (id: string) => {
     setData({
       ...data,
       sections: data.sections.filter((s) => s.id !== id),
     });
   };
-  const hasGallery = data.sections.some(
-  (s) => s.type === "gallery"
-);
+
   return (
     <div className="builder-layout">
 
@@ -153,7 +198,6 @@ export default function Builder({ data, setData, setIsEditing }: Props) {
       <div className="builder-sidebar">
         <h3>Cars</h3>
 
-        {/* 🔥 LIST XE */}
         <div style={{ marginBottom: 20 }}>
           {cars.map((c) => (
             <div
@@ -177,15 +221,19 @@ export default function Builder({ data, setData, setIsEditing }: Props) {
         <button onClick={() => addBlock("fullImage")}>+ Ảnh to</button>
         <button onClick={() => addBlock("features")}>+ Layout ảnh</button>
         <button onClick={() => addBlock("gallery")}>+ Ảnh nhận xe</button>
+
+        <button onClick={() => addBlock("video")}>
+          + Video Blog
+        </button>
       </div>
 
       {/* MAIN */}
       <div className="builder-main">
-        <h2>Builder</h2>
+        <h2>{isBlog ? "Blog Builder" : "Car Builder"}</h2>
 
         <div className="builder-form">
           <input
-            placeholder="Car name..."
+            placeholder="Title / Car name..."
             value={data.name}
             onChange={(e) =>
               setData({ ...data, name: e.target.value })
@@ -211,19 +259,21 @@ export default function Builder({ data, setData, setIsEditing }: Props) {
             />
           ))}
         </div>
-        {hasGallery && (
+
+        {/* 🔥 SAVE BUTTON */}
+        {(hasGallery || isBlog) && (
           <button
             onClick={handleSave}
             style={{
               padding: "10px 16px",
-              background: "green",
+              background: isBlog ? "#007bff" : "green",
               color: "#fff",
               border: "none",
               cursor: "pointer",
               marginTop: 20,
             }}
           >
-            Save
+            {isBlog ? "Save Blog" : "Save Car"}
           </button>
         )}
       </div>

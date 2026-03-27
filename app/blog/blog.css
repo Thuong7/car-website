@@ -1,0 +1,170 @@
+.blog-wrapper {
+  max-width: 1000px;
+  margin: 40px auto;
+  display: grid;
+  grid-template-columns: 2.7fr 1fr;
+}
+
+/* LEFT */
+.blog-list {
+  flex: 3;
+}
+
+.blog-item {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 20px;
+}
+
+.blog-thumb img {
+  object-fit: cover;
+}
+
+.blog-info h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.blog-info a {
+  text-decoration: none;
+  color: black;
+}
+
+.blog-info a:hover {
+  color: red;
+}
+
+.blog-desc {
+  color: #444;
+}
+
+/* RIGHT */
+.blog-sidebar {
+  flex: 1;
+}
+
+/* SEARCH */
+.search-box {
+  display: flex;
+}
+
+.search-box input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+.search-box button {
+  width: 50px;
+  background: #333;
+  color: white;
+}
+
+/* POSTS */
+.recent-posts {
+  margin-top: 20px;
+}
+
+.recent-posts h3 {
+  margin-bottom: 10px;
+}
+
+.recent-posts li {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.recent-posts a {
+  color: red;
+  text-decoration: none;
+}
+.video-thumb {
+  position: relative;
+  cursor: pointer;
+}
+
+.video-thumb img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 40px;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 50%;
+}
+.blog-sidebar {
+  border-left: 1px solid #eee;
+  padding-left: 20px;
+}
+
+.search-box {
+  display: flex;
+  margin-bottom: 30px;
+}
+
+.search-box input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+.search-box button {
+  width: 50px;
+  background: #333;
+  color: white;
+  border: none;
+}
+
+.recent-posts h3 {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.recent-posts ul {
+  list-style: none;
+  padding: 0;
+}
+
+.recent-posts li {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.recent-posts a {
+  text-decoration: none;
+  color: red;
+}
+.blog-content {
+  width: 100%;
+}
+
+.video-wrapper {
+  width: 90%;
+  aspect-ratio: 16/9;
+  background: #000;
+  margin: 20px;
+}
+
+.video-wrapper iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+@media (max-width: 768px) {
+  .blog-wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .blog-sidebar {
+    display: none;
+  }
+}
