@@ -153,6 +153,13 @@ export default function Builder({ data, setData, setIsEditing }: Props) {
           thumbnail: null,
         },
       };
+    }else if (type === "featureVersions") {
+      newBlock = {
+        type,
+        data: {
+          versions: [],
+        },
+      };
     } else {
       newBlock = {
         type,
@@ -220,6 +227,7 @@ export default function Builder({ data, setData, setIsEditing }: Props) {
         <button onClick={() => addBlock("description")}>+ Description</button>
         <button onClick={() => addBlock("fullImage")}>+ Ảnh to</button>
         <button onClick={() => addBlock("features")}>+ Layout ảnh</button>
+        <button onClick={() => addBlock("featureVersions")}> + Phiên bản xe</button>
         <button onClick={() => addBlock("gallery")}>+ Ảnh nhận xe</button>
 
         <button onClick={() => addBlock("video")}>

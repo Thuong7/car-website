@@ -85,11 +85,22 @@ export type Section =
         caption?: string;
         thumbnail?: string | null;
       };
-    };
-    
+    }
+    | { type: "featureVersions"; data: FeatureVersions };
+
 
 export type CarDetailContent = {
   slug: string;
   name: string;
   sections: Section[];
+};
+export type FeatureItem = {
+  title: string;
+  content?: string | null;
+  features: string[];
+  image?: string | null;
+};
+
+export type FeatureVersions = {
+  versions: FeatureItem[];
 };

@@ -5,7 +5,9 @@ import FeaturesBlock from "./blocks/FeaturesBlock";
 import HeroBlock from "./blocks/HeroBlock";
 import GalleryBlock from "./blocks/GalleryBlock";
 import VideoBlock from "./blocks/VideoBlock";
+import FeatureDescription from "./blocks/featureDescription";
 import "./Builder.css";
+import FeatureVersionsBlock from "./blocks/featureDescription";
 
 type Props = {
   block: SectionWithId;
@@ -32,6 +34,10 @@ export default function BlockRenderer({ block, onChange, onDelete }: Props) {
 
       {block.type === "features" && (
         <FeaturesBlock data={block.data} onChange={onChange} />
+      )}
+
+      {block.type === "featureVersions" && (
+        <FeatureVersionsBlock data={block.data} onChange={onChange} />
       )}
 
       {block.type === "gallery" && (

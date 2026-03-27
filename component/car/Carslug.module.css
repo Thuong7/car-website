@@ -97,3 +97,63 @@
   padding: 12px;
   font-weight: 600;
 }
+.fvWrapper {
+  padding: 40px 0;
+  background: #f5f5f5;
+}
+
+/* GRID AUTO */
+.fvGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+/* CARD */
+.fvCard {
+  background: #fff;
+  padding: 20px;
+  border-radius: 6px;
+}
+
+/* IMAGE */
+.fvImage {
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+/* TEXT */
+.fvTitle {
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.fvContent {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.fvSub {
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+/* LIST */
+.fvList {
+  margin-top: 10px;
+  padding-left: 0;
+  list-style: none;
+}
+
+.fvList li {
+  margin-bottom: 6px;
+  position: relative;
+  padding-left: 12px;
+}
+
+.fvList li::before {
+  content: "-";
+  position: absolute;
+  left: 0;
+}

@@ -4,6 +4,7 @@ import HeroSection from "@/component/car/HeroSection";
 import DescriptionBlock from "@/component/car/DescriptionBlock";
 import FeatureGrid from "@/component/car/FeatureGrid";
 import FullImageBlock from "@/component/car/FullImageBlock";
+import FeatureVersionsView from "@/component/car/Version";
 
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -152,7 +153,10 @@ export default async function Page({ params }: Props) {
 
           case "features":
             return <FeatureGrid key={index} features={section.data} />;
-
+          
+            case "featureVersions": 
+            return ( <FeatureVersionsView  key={index} data={section.data} />
+      );
           default:
             return null;
         }

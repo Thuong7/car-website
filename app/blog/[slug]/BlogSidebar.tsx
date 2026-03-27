@@ -8,9 +8,22 @@ type Post = {
   title: string;
   slug: string;
 };
+function getYoutubeThumbnail(url?: string) {
+  if (!url) return null;
+
+  const id =
+    url.split("v=")[1]?.split("&")[0] ||
+    url.split("/").pop();
+
+  return id
+    ? `https://img.youtube.com/vi/${id}/hqdefault.jpg`
+    : null;
+}
 
 export default function BlogSidebar({ posts }: any) {
   return (
+
+    
     <aside className="blog-sidebar">
 
       {/* SEARCH */}
@@ -26,9 +39,25 @@ export default function BlogSidebar({ posts }: any) {
         <ul>
           {posts?.length > 0 ? (
             posts.map((p: any) => (
-              <li key={p._id}>
+              <li key={p._id} className="recent-item">
                 <Link href={`/blog/${p.slug}`}>
-                  {p.title || p.name}
+
+                  <div className="thumb">
+                    <img
+                      src={
+                        p.thumbnail && p.thumbnail.trim() !== ""
+                          ? p.thumbnail
+                          : getYoutubeThumbnail(p.youtubeUrl) || "/default.jpg"
+                      }
+                      alt={p.title || "blog"}
+                      onError={(e: any) => (e.target.src = "/default.jpg")}
+                    />
+                  </div>
+
+                  <div className="info">
+                    <p>{p.title || p.name}</p>
+                  </div>
+
                 </Link>
               </li>
             ))
