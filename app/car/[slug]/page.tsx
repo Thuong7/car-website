@@ -1,5 +1,5 @@
 import clientPromise from "@/lib/mongodb";
-
+import { revalidateTag } from "next/cache";
 import HeroSection from "@/component/car/HeroSection";
 import DescriptionBlock from "@/component/car/DescriptionBlock";
 import FeatureGrid from "@/component/car/FeatureGrid";
@@ -22,21 +22,22 @@ type Props = {
 // =======================
 // HELPER: GET CAR
 // =======================
-const getCar = unstable_cache(
-  async (slug: string) => {
-    const client = await clientPromise;
-    const db = client.db("car-showroom");
+const getCar = (slug: string) =>
+  unstable_cache(
+    async () => {
+      const client = await clientPromise;
+      const db = client.db("car-showroom");
 
-    return db.collection("cars").findOne(
-      { slug },
-      { projection: { name: 1, sections: 1 } }
-    );
-  },
-  ["car-detail"],
-  {
-    revalidate: 300, 
-  }
-);
+      return db.collection("cars").findOne(
+        { slug },
+        { projection: { name: 1, sections: 1 } }
+      );
+    },
+    ["car-detail", slug], 
+    {
+      revalidate: 300,
+    }
+  )();
 
 // =======================
 // STATIC PARAMS (FIX BUG)

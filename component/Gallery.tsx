@@ -1,5 +1,4 @@
-"use client";
-
+import Image from "next/image";
 import styles from "./Gallery.module.css";
 
 type Props = {
@@ -43,7 +42,13 @@ export default function Gallery({ images }: Props) {
         <div className={styles.grid}>
           {images.map((url, i) => (
             <div key={i} className={styles.card}>
-              <img src={url} alt="" />
+              <Image
+                src={url}
+                alt=""
+                width={300}
+                height={200}
+                loading="lazy"
+              />
             </div>
           ))}
         </div>

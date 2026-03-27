@@ -1,36 +1,22 @@
-"use client";
-
-import { useEffect, useState } from "react";
+import clientPromise from "@/lib/mongodb";
 import Gallery from "./Gallery";
 
-export default function GalleryWrapper() {
-  const [images, setImages] = useState<string[]>([]);
+async function getGallery() {
+  try {
+    const client = await clientPromise;
+    const db = client.db("car-showroom");
 
-  useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const res = await fetch("/api/gallery", {cache: "no-store",});
+    const gallery = await db.collection("galleries").findOne();
 
-      if (!res.ok) {
-        console.error("API ERROR");
-        return;
-      }
+    return gallery?.images || [];
+  } catch (err) {
+    console.error("Gallery fetch error:", err);
+    return [];
+  }
+}
 
-      const data = await res.json();
+export default async function GalleryWrapper() {
+  const images = await getGallery();
 
-      setImages(data.images || []);
-    } catch (err) {
-      console.error("FETCH ERROR:", err);
-    }
-  };
-
-  fetchData();
-}, []);
-
-  
-  return (
-    <Gallery
-      images={images}
-    />
-  );
+  return <Gallery images={images} />;
 }
