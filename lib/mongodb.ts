@@ -1,6 +1,10 @@
 import { MongoClient } from "mongodb";
 
-const uri = process.env.MONGODB_URI!;
+const uri = process.env.MONGODB_URI;
+
+if (!uri) {
+  throw new Error(" MONGODB_URI is missing");
+}
 
 let client: MongoClient;
 let clientPromise: Promise<MongoClient>;
@@ -11,10 +15,9 @@ declare global {
 
 if (!global._mongoClientPromise) {
   client = new MongoClient(uri);
-  clientPromise = client.connect(); 
-  global._mongoClientPromise = clientPromise;
-} else {
-  clientPromise = global._mongoClientPromise;
+  global._mongoClientPromise = client.connect();
 }
+
+clientPromise = global._mongoClientPromise!;
 
 export default clientPromise;
