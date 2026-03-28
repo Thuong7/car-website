@@ -3,6 +3,8 @@ import Header from "@/component/Header";
 import Footer from "@/component/Footer";
 import GalleryWrapper from "@/component/GalleryWrapper";
 import type { Metadata } from "next";
+import FloatingButtons from "@/component/common/FloatingButtons";
+import { cars } from "@/component/data";
 
 export const metadata: Metadata = {
   title: {
@@ -56,6 +58,7 @@ export default function RootLayout({
         <Header />
         <main>{children}</main> 
         <GalleryWrapper />
+        <FloatingButtons cars={cars} />
         <Footer />
       </body>
     </html>

@@ -22,7 +22,7 @@ export default function FeatureGrid({ features }: Props) {
                 height={200}
               />
               <p style={{ whiteSpace: "pre-line" }}>
-                {item.title}
+                 {item.title?.replace(/\\n/g, "\n")}
               </p>
             </div>
           ))}

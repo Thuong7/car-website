@@ -335,3 +335,8 @@
     right: 0;
   }
 }
+@media (max-width: 1024px) {
+  .hero-wrapper {
+    flex-direction: column;
+  }
+}

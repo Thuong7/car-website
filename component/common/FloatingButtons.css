@@ -1,0 +1,149 @@
+.floating-desktop {
+  position: fixed;
+  right: 20px;
+  bottom: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  z-index: 999;
+}
+
+/* BUTTON */
+.float-btn {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fb {
+  background: linear-gradient(145deg, #1877f2, #4e8df5);
+}
+
+.zalo {
+  background: linear-gradient(145deg, #0a88ff, #5bbcff);
+}
+
+.phone {
+  background: linear-gradient(145deg, #ff3b3b, #ff6b6b);
+}
+
+/* HOVER */
+.float-btn:hover {
+  transform: scale(1.1);
+}
+.float-btn::before,
+.float-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgba(255, 0, 0, 0.3); /* màu theo nút */
+  animation: pulse 1.8s infinite;
+}
+
+/* delay để tạo 2 vòng */
+.float-btn::after {
+  animation-delay: 0.9s;
+}
+
+/* ICON CHÍNH */
+.float-btn img {
+  position: relative;
+  z-index: 2;
+}
+
+/* RUNG ICON */
+.phone img {
+  animation: shake 1s infinite;
+}
+
+/* ===== ANIMATION ===== */
+
+/* Sóng lan */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  70% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+
+@keyframes shake {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(10deg); }
+  50% { transform: rotate(0deg); }
+  75% { transform: rotate(-10deg); }
+  100% { transform: rotate(0deg); }
+}
+.mobile-bar {
+  position: fixed;
+  bottom: 10px; 
+
+  display: none;
+  gap: 10px; 
+
+  z-index: 999;
+
+  backdrop-filter: blur(6px);
+}
+
+/* ===== BUTTON ===== */
+.mobile-btn {
+  flex: 1;
+    min-width: 0; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  padding: 12px 10px;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  color: #fff;
+  text-decoration: none;
+
+  border-radius: 8px; /* 👈 bo góc giống hình */
+
+  box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+
+  transition: all 0.2s ease;
+}
+
+/* ===== CALL ===== */
+.mobile-btn.call {
+  background: linear-gradient(135deg, #d60000, #ff2e2e);
+}
+
+/* ===== QUOTE ===== */
+.mobile-btn.quote {
+  background: linear-gradient(135deg, #e53935, #ff5c5c);
+}
+
+/* ===== HOVER / CLICK ===== */
+.mobile-btn:active {
+  transform: scale(0.97);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .floating-desktop {
+    display: none; 
+  }
+
+  .mobile-bar {
+    display: flex; 
+  }
+}

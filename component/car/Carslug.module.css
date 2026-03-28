@@ -36,13 +36,18 @@
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
 }
-
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
 .item {
   background: #f3f3f3;
 }
 
 .item img {
   width: 100%;
+  height: 300px;
   display: block;
 }
 
@@ -56,6 +61,7 @@
 
 .fullImage {
   padding: 20px;
+
 }
  /*
 .fullImage h2{
@@ -89,6 +95,7 @@
 .fullImage img {
   width: 100%;
   display: block;
+  height: 100%;
 }
 
 .fullImage figcaption {
@@ -99,7 +106,7 @@
 }
 .fvWrapper {
   padding: 40px 0;
-  background: #f5f5f5;
+  background: #ffffff;
   max-width: 1000px;
   margin: 0 auto;
 }
@@ -113,7 +120,7 @@
 
 /* CARD */
 .fvCard {
-  background: #fff;
+  background: #e5e5e5;
   padding: 20px;
   border-radius: 6px;
 }
@@ -152,10 +159,6 @@
   margin-bottom: 6px;
   position: relative;
   padding-left: 12px;
+  font-size: 14px;
 }
 
-.fvList li::before {
-  content: "-";
-  position: absolute;
-  left: 0;
-}

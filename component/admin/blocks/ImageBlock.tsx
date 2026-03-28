@@ -10,53 +10,57 @@ type Props = {
 
 export default function ImageBlock({ data, onChange }: Props) {
   const [loading, setLoading] = useState(false);
+  const inputId = `upload-img-${Math.random()}`;
 
   const handleUpload = async (file: File) => {
-  const reader = new FileReader();
-  console.log("START UPLOAD");
+    const reader = new FileReader();
 
-  reader.onloadend = async () => {
-    setLoading(true);
+    reader.onloadend = async () => {
+      setLoading(true);
 
-    const res = await fetch("/api/upload", {
-      method: "POST",
-      body: JSON.stringify({ file: reader.result }),
-      headers: { "Content-Type": "application/json" },
-    });
+      try {
+        const res = await fetch("/api/upload", {
+          method: "POST",
+          body: JSON.stringify({ file: reader.result }),
+          headers: { "Content-Type": "application/json" },
+        });
 
-    const json = await res.json();
-    console.log("JSON:", json);
+        const json = await res.json();
 
-    onChange({
-      ...data,
-      image: json.url,
-    });
+        if (!json.url) throw new Error("Upload failed");
 
-    setLoading(false);
+        onChange({
+          ...data,
+          image: json.url,
+        });
+      } catch (err) {
+        console.error("Upload fail:", err);
+      }
+
+      setLoading(false);
+    };
+
+    reader.readAsDataURL(file);
   };
-
-  reader.readAsDataURL(file);
-};
 
   return (
     <div style={{ marginBottom: 20 }}>
       <h3>Image Block</h3>
 
-      {!data.image && (
-        <button
-          onClick={() => document.getElementById("upload-img")?.click()}
-        >
-          Upload Image
-        </button>
-      )}
+      <button
+        onClick={() => document.getElementById(inputId)?.click()}
+      >
+        {data.image ? "Change Image" : "Upload Image"}
+      </button>
 
       <input
-        id="upload-img"
+        id={inputId}
         type="file"
         hidden
         onChange={(e) => {
           if (e.target.files?.[0]) {
             handleUpload(e.target.files[0]);
+            e.target.value = ""; // 🔥 quan trọng
           }
         }}
       />
@@ -65,13 +69,16 @@ export default function ImageBlock({ data, onChange }: Props) {
 
       {data.image && (
         <div>
-          <img src={data.image} style={{ width: "100%", marginTop: 10 }} />
+          <img
+            src={data.image}
+            style={{ width: "100%", marginTop: 10 }}
+          />
 
           <button
             onClick={() =>
               onChange({
                 ...data,
-                image: "null",
+                image: "",
               })
             }
           >
