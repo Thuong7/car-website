@@ -140,6 +140,7 @@ export default async function Page({ params }: Props) {
           priceList: heroBlock?.data?.priceList || [],
           promo: heroBlock?.data?.promo || [],
         }}
+        slug={slug}
       />
 
       {/* CONTENT */}

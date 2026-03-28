@@ -3,7 +3,7 @@ import Hero from "@/component/Hero";
 import CarList from "@/component/CarList";
 import { cars } from "@/component/data";
 import PopupManager from "@/component/PopupManager";
-
+import NewsSection from "@/component/NewsSection";
 
 export const metadata: Metadata = {
   title: "Mitsubishi Đà Nẵng - Báo giá xe Mitsubishi mới nhất",
@@ -29,6 +29,7 @@ export default function Home() {
             mới nhất, ưu đãi hấp dẫn và hỗ trợ trả góp.
           </p>
         </section>
+        <NewsSection />
       </main>
 
       <PopupManager />

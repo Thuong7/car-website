@@ -3,6 +3,7 @@
 import { useState } from "react";
 import SearchBox from "@/component/SearchBox";
 import Link from "next/dist/client/link";
+import "../blog.css";
 type Post = {
   _id: string;
   title: string;

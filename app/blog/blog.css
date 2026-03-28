@@ -8,6 +8,7 @@
 /* LEFT */
 .blog-list {
   flex: 3;
+  padding: 10px;
 }
 
 .blog-item {
@@ -20,6 +21,8 @@
 
 .blog-thumb img {
   object-fit: cover;
+  width: 250px;
+  height: 180px;
 }
 
 .blog-info h2 {
@@ -158,6 +161,77 @@
   width: 100%;
   height: 100%;
   border: none;
+}
+.recent-item{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+.thumb{
+  width: 100%;
+  object-fit: cover;
+}
+.thumb img{
+  width: 100px;
+}
+.social-share {
+  display: flex;
+  gap: 18px;
+  margin-top: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.social-share a {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #f2f2f2;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #666;
+  transition: 0.3s;
+
+  line-height: 0;
+}
+
+.social-share svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+  transform: translate(3px, 2px);
+}
+
+.social-share a:nth-child(1):hover {
+  background: #0664fe;
+  color: #fff;
+}
+.social-share a:nth-child(2):hover {
+  background: #0697fe;
+  color: #fff;
+}
+.social-share a:nth-child(3):hover {
+ background: linear-gradient(
+    135deg,
+    #4285F4 0%,
+    #EA4335 25%,
+    #FBBC05 50%,
+    #34A853 100%
+  );
+  color: #fff;
+}
+.social-share a:nth-child(4):hover {
+  background: #cb0000;
+  color: #fff;
+}
+.social-share a:nth-child(5):hover {
+  background: #00368e;
+  color: #ffffff;
 }
 @media (max-width: 768px) {
   .blog-wrapper {
