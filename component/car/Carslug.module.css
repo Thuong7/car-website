@@ -100,6 +100,8 @@
 .fvWrapper {
   padding: 40px 0;
   background: #f5f5f5;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 /* GRID AUTO */
@@ -130,7 +132,7 @@
 }
 
 .fvContent {
-  font-size: 14px;
+  font-size: 13px;
   margin-bottom: 10px;
 }
 

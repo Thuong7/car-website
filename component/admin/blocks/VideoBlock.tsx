@@ -51,29 +51,40 @@ export default function VideoBlock({ data, onChange }: Props) {
       <div className="field">
         <label>Thumbnail (ảnh preview)</label>
         <input
-            type="file"
-            accept="image/*"
-            onChange={async (e) => {
-                const file = e.target.files?.[0];
-                if (!file) return;
+          type="file"
+          accept="image/*"
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (!file) return;
 
-                const formData = new FormData();
-                formData.append("file", file);
+            const reader = new FileReader();
 
+            reader.onloadend = async () => {
+              try {
                 const res = await fetch("/api/upload", {
-                method: "POST",
-                body: formData,
+                  method: "POST",
+                  body: JSON.stringify({ file: reader.result }),
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
                 });
 
-                const result  = await res.json();
+                const result = await res.json();
 
                 onChange({
-                ...data,
-                thumbnail: result.url,
+                  ...data,
+                  thumbnail: result.url,
                 });
-                console.log("FINAL DATA:", data);
-            }}
-            />
+
+                console.log("UPLOAD OK:", result.url);
+              } catch (err) {
+                console.error("UPLOAD ERROR:", err);
+              }
+            };
+
+            reader.readAsDataURL(file);
+          }}
+        />
       </div>
 
       {/* CAPTION */}

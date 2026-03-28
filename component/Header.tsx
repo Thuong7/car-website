@@ -83,17 +83,19 @@ export default function Header() {
 
             {/* DESKTOP */}
             <div className="left">
-              <Image
-                src="/main-logo.svg"
-                alt="Mitsubishi Logo"
-                width={120}
-                height={40}
-                className="logo"
-              />
-
+              <Link href="/" className="logo-link">
+                <Image
+                  src="/main-logo.svg"
+                  alt="Mitsubishi Logo"
+                  width={120}
+                  height={40}
+                  className="logo"
+                />
+              </Link>
               <div className="info">
                 <h1>MITSUBISHI SAVICO ĐÀ NẴNG</h1>
-                <p>02 Nguyễn Hữu Thọ, Hải Châu, Đà Nẵng</p>
+                <a  href="https://maps.google.com/?q=02 Nguyễn Hữu Thọ Đà Nẵng"target="_blank"rel="noopener noreferrer">
+                02 Nguyễn Hữu Thọ, Hải Châu, Đà Nẵng</a>
               </div>
             </div>
 
@@ -192,8 +194,8 @@ export default function Header() {
           </ul>
 
           <li>TRẢI NGHIỆM KHÁCH HÀNG</li>
-          <li>TIN TỨC</li>
-          <li>LIÊN HỆ</li>
+          <li><Link href="/blog">TIN TỨC</Link></li>
+          <li><Link href="/contact">LIÊN HỆ</Link></li>
 
           <li>
             <a href="tel:0934780797" className="hotline">
