@@ -59,6 +59,7 @@
 /* ===== CARD ===== */
 .car-card {
   padding: 0;
+  overflow: hidden;
 }
 
 .car-card img {
@@ -68,6 +69,7 @@
   object-fit: contain;
   display: block;
   margin: 0 auto;
+  transform-origin: center;
 }
 
 .car-card h3 {

@@ -142,7 +142,17 @@
   gap: 15px;
   padding: 10px 0;
 }
+.error {
+  color: red;
+  font-size: 13px;
+  margin-top: 5px;
+}
 
+.message {
+  color: green;
+  font-size: 13px;
+  margin-top: 5px;
+}
 .form input {
   background: #2a2a2a;
   border-radius: 9999px;

@@ -1,14 +1,18 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link"; // 
+import { cars } from "@/component/data";
 import SearchBox from "@/component/SearchBox";
-import Link from "next/dist/client/link";
+
 import "../blog.css";
+
 type Post = {
   _id: string;
   title: string;
   slug: string;
 };
+
 function getYoutubeThumbnail(url?: string) {
   if (!url) return null;
 
@@ -22,16 +26,12 @@ function getYoutubeThumbnail(url?: string) {
 }
 
 export default function BlogSidebar({ posts }: any) {
-  return (
 
-    
+  return (
     <aside className="blog-sidebar">
 
       {/* SEARCH */}
-      <div className="search-box">
-        <input placeholder="Tìm kiếm..." />
-        <button>🔍</button>
-      </div>
+      <SearchBox cars={cars} blogs={posts} /> 
 
       {/* RECENT */}
       <div className="recent-posts">

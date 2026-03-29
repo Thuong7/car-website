@@ -21,30 +21,40 @@ export const metadata: Metadata = {
     "attrage",
     "mitsubishi 2026",
   ],
-
+  authors: [{ name: "Mitsubishi Đà Nẵng" }],
+  creator: "Mitsubishi Đà Nẵng",
+  publisher: "Mitsubishi Đà Nẵng",
+  twitter: {
+  card: "summary_large_image",
+  title: "Mitsubishi Đà Nẵng",
+  description:
+    "Giá xe Mitsubishi mới nhất, ưu đãi hấp dẫn, hỗ trợ trả góp.",
+  images: ["/banner.jpg"],
+},
   openGraph: {
     title: "Mitsubishi Đà Nẵng",
     description:
       "Giá xe Mitsubishi mới nhất, ưu đãi hấp dẫn, hỗ trợ trả góp.",
-    url: "https://yourdomain.com",
+    url: "https://mitsubishi-danang.vn",
     siteName: "Mitsubishi Đà Nẵng",
     locale: "vi_VN",
     type: "website",
     images: [
-      {
-        url: "/banner.jpg", // nhớ có file này
-        width: 1200,
-        height: 630,
-      },
-    ],
+  {
+    url: "/banner.jpg",
+    width: 1200,
+    height: 630,
+    alt: "Mitsubishi Đà Nẵng",
   },
-
+],
+  },
+  viewport: "width=device-width, initial-scale=1",
   robots: {
     index: true,
     follow: true,
   },
 
-  metadataBase: new URL("https://yourdomain.com"), 
+  metadataBase: new URL("https://mitsubishi-danang.vn"), 
 };
 
 export default function RootLayout({
@@ -60,6 +70,23 @@ export default function RootLayout({
         <GalleryWrapper />
         <FloatingButtons cars={cars} />
         <Footer />
+        <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "AutoDealer",
+                name: "Mitsubishi Đà Nẵng",
+                url: "https://mitsubishi-danang.vn",
+                telephone: "0934780797",
+                address: {
+                  "@type": "PostalAddress",
+                  addressLocality: "Đà Nẵng",
+                  addressCountry: "VN",
+                },
+              }),
+            }}
+          />
       </body>
     </html>
   );

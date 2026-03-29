@@ -5,7 +5,7 @@ import DescriptionBlock from "@/component/car/DescriptionBlock";
 import FeatureGrid from "@/component/car/FeatureGrid";
 import FullImageBlock from "@/component/car/FullImageBlock";
 import FeatureVersionsView from "@/component/car/Version";
-
+import styles from  "@/component/car/Carslug.module.css"
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
@@ -80,20 +80,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const description =
     descSection?.data?.content?.slice(0, 160) ||
-    `Giá xe ${car.name} mới nhất, ưu đãi hấp dẫn, hỗ trợ trả góp.`;
+    `Giá xe ${car.name} mới nhất tại Đà Nẵng, ưu đãi hấp dẫn, hỗ trợ trả góp, đăng ký lái thử nhanh chóng.`;
 
   const heroImage =
     car.sections?.find((s: any) => s.type === "hero")?.data?.gallery?.[0] ||
     "/banner.jpg";
-
+  
   return {
-    title: `${car.name} | Mitsubishi Đà Nẵng`,
+    title: `${car.name} 2026 – Giá lăn bánh tại Đà Nẵng | Mitsubishi`,
     description,
 
     openGraph: {
       title: car.name,
       description,
-      url: `https://yourdomain.com/car/${slug}`,
+      url: `https://mitsubishi-danang.vn/car/${slug}`,
       images: [
         {
           url: heroImage,
@@ -132,7 +132,6 @@ export default async function Page({ params }: Props) {
 
   return (
     <>
-      {/* HERO */}
       <HeroSection
         car={{
           name: car.name,
@@ -142,7 +141,11 @@ export default async function Page({ params }: Props) {
         }}
         slug={slug}
       />
-
+      <div className={styles.descWrapper}>
+      <div className={styles.descheader}>
+        <span className={styles.descTitle}>MÔ TẢ</span>
+      </div>
+      </div>
       {/* CONTENT */}
       {car.sections?.map((section: any, index: number) => {
         switch (section.type) {

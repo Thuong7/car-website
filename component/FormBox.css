@@ -184,21 +184,20 @@ button:disabled {
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.5);
-  width: 100vw;          
-  max-width: 100vw;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  padding: 16px; 
+  align-items: center;
   box-sizing: border-box;
   z-index: 9999;
+  overflow-y: auto;
+  overflow-x: hidden;
  animation: popupShow 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .popup-container {
   width: 100%;
   max-width: 600px;
-  margin: 0 auto;
+  margin: 0 16px;
   background-color: #fff;
   box-sizing: border-box;
   border-radius: 12px;

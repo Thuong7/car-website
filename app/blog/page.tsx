@@ -2,12 +2,20 @@ import clientPromise from "@/lib/mongodb";
 import Link from "next/link";
 import Image from "next/image";
 import "./blog.css";
-
+import { useSearch } from "@/component/utils/useSearch";
+import { cars } from "@/component/data";
+import SearchSidebar from "@/component/SearchBox";
+import SearchBox from "@/component/SearchBox";
 export const revalidate = 60;
-
+import type { Metadata } from "next";
 // ======================
 // DATA
 // ======================
+export const metadata: Metadata = {
+  title: "Tin tức Mitsubishi Đà Nẵng – Đánh giá & video mới nhất",
+  description:
+    "Cập nhật tin tức, video đánh giá xe Mitsubishi mới nhất tại Đà Nẵng. Xem ngay giá xe, ưu đãi và trải nghiệm thực tế.",
+};
 async function getBlogs() {
   const client = await clientPromise;
   const db = client.db("car-showroom");
@@ -35,7 +43,6 @@ async function getBlogs() {
 export default async function BlogList() {
   const blogsRaw = await getBlogs();
 
-  // 🔥 FORMAT DATA
   const blogs = blogsRaw.map((b: any) => {
     const video = b.sections?.find(
       (s: any) => s.type === "video"
@@ -58,8 +65,11 @@ export default async function BlogList() {
   });
 
   return (
+    <>
     <div className="blog-wrapper">
-
+      <h1 className="seo-hidden">
+        Tin tức Mitsubishi Đà Nẵng mới nhất
+      </h1>
       {/* LEFT */}
       <div className="blog-list">
         {blogs.map((blog) => (
@@ -97,11 +107,7 @@ export default async function BlogList() {
       <aside className="blog-sidebar">
 
         {/* SEARCH */}
-        <div className="search-box">
-          <input placeholder="Tìm kiếm..." />
-          <button>🔍</button>
-        </div>
-
+        <SearchBox cars={cars} blogs={blogs} />
         {/* RECENT */}
         <div className="recent-posts">
           <h3>BÀI VIẾT MỚI</h3>
@@ -120,5 +126,17 @@ export default async function BlogList() {
       </aside>
 
     </div>
+        <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Blog",
+          name: "Tin tức Mitsubishi Đà Nẵng",
+          url: "https://mitsubishi-danang.vn/blog",
+        }),
+      }}
+    />
+    </>
   );
 }

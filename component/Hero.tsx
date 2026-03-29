@@ -15,6 +15,8 @@ export default function Hero() {
   const [fade, setFade] = useState<boolean>(true);
   const [phone, setPhone] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -39,15 +41,48 @@ export default function Hero() {
     }, 200);
   };
 
-  const handleSubmit = () => {
-    const regex = /^(0|\+84)[0-9]{9}$/;
-    if (!regex.test(phone)) {
-      setError("Số điện thoại không hợp lệ");
-    } else {
+      const handleSubmit = async () => {
+      const regex = /^(0|\+84)[0-9]{9}$/;
+
+      if (!regex.test(phone)) {
+        setError("Số điện thoại không hợp lệ");
+        setMessage("");
+        return;
+      }
+
       setError("");
-      alert("Gửi thành công!");
-    }
-  };
+      setMessage("Đang gửi...");
+      setLoading(true);
+
+      try {
+        const res = await fetch("/api/send-mail", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: "Khách từ Hero",
+            phone,
+            car: "Chưa chọn",
+            type: "Form Hero",
+          }),
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          setMessage("Gửi thành công!");
+          setPhone("");
+        } else {
+          setMessage("Gửi thất bại, thử lại!");
+        }
+      } catch (err) {
+        setMessage("Lỗi server!");
+      } finally {
+        setLoading(false);
+      }
+    };
+
 
   return (
     <>
@@ -118,13 +153,15 @@ export default function Hero() {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
               />
-              <button onClick={handleSubmit}>GỬI</button>
+
+              <button onClick={handleSubmit} disabled={loading}>
+                {loading ? "Đang gửi..." : "GỬI"}
+              </button>
             </div>
-
-            {error && <p className="error">{error}</p>}
-          </div>
-
+          {error && <p className="error">{error}</p>}
+          {message && <p className="message">{message}</p>}
         </div>
+      </div>
       </section>
     </>
   );

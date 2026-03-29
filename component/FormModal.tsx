@@ -23,16 +23,18 @@ export default function FormPopup({
   setSelectedCar,
 }: Props) {
   useEffect(() => {
-    if (open) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
+  if (!open) return;
 
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [open]);
+  const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
+
+  document.body.style.overflow = "hidden";
+  document.body.style.paddingRight = `${scrollBarWidth}px`;
+
+  return () => {
+    document.body.style.overflow = "";
+    document.body.style.paddingRight = "";
+  };
+}, [open]);
 
   if (!open) return null;
 

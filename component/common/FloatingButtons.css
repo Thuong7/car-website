@@ -1,22 +1,28 @@
+/* ================= ROOT ================= */
 .floating-desktop {
   position: fixed;
-  right: 20px;
+  left: 25px;
   bottom: 100px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 20px;
   z-index: 999;
 }
 
-/* BUTTON */
+/* ================= BUTTON ================= */
 .float-btn {
   position: relative;
   width: 60px;
   height: 60px;
   border-radius: 50%;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
+  overflow: visible;
+
+  animation: pulseBtn 1.6s infinite;
 }
 
 .fb {
@@ -31,9 +37,21 @@
   background: linear-gradient(145deg, #ff3b3b, #ff6b6b);
 }
 
-/* HOVER */
-.float-btn:hover {
-  transform: scale(1.1);
+
+.float-btn img {
+  position: relative;
+  z-index: 3;
+}
+.fb {
+  --wave-color: 24,119,242;
+}
+
+.zalo {
+  --wave-color: 10,136,255;
+}
+
+.phone {
+  --wave-color: 255,59,59;
 }
 .float-btn::before,
 .float-btn::after {
@@ -41,109 +59,140 @@
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background: rgba(255, 0, 0, 0.3); /* màu theo nút */
-  animation: pulse 1.8s infinite;
+
+  background: inherit;
+  filter: blur(3px);
+
+  animation: waveSmooth 2s infinite;
 }
 
-/* delay để tạo 2 vòng */
+/* sóng thứ 2 trễ hơn */
 .float-btn::after {
-  animation-delay: 0.9s;
+  animation-delay: 1s;
 }
-
-/* ICON CHÍNH */
-.float-btn img {
+.float-btn::after {
+  animation-delay: 1s;
+}
+.float-btn {
+  animation: pulseBtn 2s infinite;
+}
+.zalo img, .fb img,.phone img {
   position: relative;
   z-index: 2;
-}
-
-/* RUNG ICON */
-.phone img {
   animation: shake 1s infinite;
 }
+@keyframes btnPulse {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(0.9); }   
+  60%  { transform: scale(1.1); }   
+  100% { transform: scale(1); }
+}
 
-/* ===== ANIMATION ===== */
-
-/* Sóng lan */
-@keyframes pulse {
+@keyframes wave {
   0% {
     transform: scale(1);
-    opacity: 0.6;
+    opacity: 0.5;
   }
   70% {
     transform: scale(1.6);
-    opacity: 0;
+    opacity: 0.1;
   }
   100% {
     transform: scale(1.8);
     opacity: 0;
   }
 }
-
+@keyframes waveSmooth {
+  0% {
+    box-shadow: 0 0 0 0 rgba(var(--wave-color), 0.6);
+  }
+  70% {
+    box-shadow: 0 0 0 30px rgba(var(--wave-color), 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(var(--wave-color), 0);
+  }
+}
 @keyframes shake {
-  0% { transform: rotate(0deg); }
-  25% { transform: rotate(10deg); }
-  50% { transform: rotate(0deg); }
-  75% { transform: rotate(-10deg); }
+  0%   { transform: rotate(0deg); }
+  20%  { transform: rotate(30deg); }
+  40%  { transform: rotate(-30deg); }
+  60%  { transform: rotate(20deg); }
+  80%  { transform: rotate(-20deg); }
   100% { transform: rotate(0deg); }
 }
-.mobile-bar {
-  position: fixed;
-  bottom: 10px; 
 
-  display: none;
-  gap: 10px; 
-
-  z-index: 999;
-
-  backdrop-filter: blur(6px);
+@keyframes pulseBtn {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
 }
 
-/* ===== BUTTON ===== */
+/* ================= MOBILE BAR ================= */
+.mobile-bar {
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: min(100%, 640px);
+  padding: 0 8px;
+
+  display: none; /* 🔥 default ẩn */
+
+  gap: 8px;
+  box-sizing: border-box;
+  z-index: 9999;
+}
+
+/* ================= MOBILE BUTTON ================= */
 .mobile-btn {
   flex: 1;
-    min-width: 0; 
+  min-width: 0;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
 
-  padding: 12px 10px;
-
-  font-size: 15px;
+  padding: 10px 6px;
+  font-size: 13px;
   font-weight: 600;
 
   color: #fff;
   text-decoration: none;
 
-  border-radius: 8px; /* 👈 bo góc giống hình */
+  border-radius: 8px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
   box-shadow: 0 3px 8px rgba(0,0,0,0.25);
 
   transition: all 0.2s ease;
 }
 
-/* ===== CALL ===== */
 .mobile-btn.call {
   background: linear-gradient(135deg, #d60000, #ff2e2e);
 }
 
-/* ===== QUOTE ===== */
 .mobile-btn.quote {
-  background: linear-gradient(135deg, #e53935, #ff5c5c);
+  background: linear-gradient(135deg, #d60000, #ff5c5c);
 }
 
-/* ===== HOVER / CLICK ===== */
 .mobile-btn:active {
   transform: scale(0.97);
 }
 
-/* ===== RESPONSIVE ===== */
+
+/* MOBILE ONLY */
 @media (max-width: 768px) {
   .floating-desktop {
-    display: none; 
+    display: none;
   }
 
   .mobile-bar {
-    display: flex; 
+    display: flex;
   }
 }

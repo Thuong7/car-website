@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import BlogSidebar from "./BlogSidebar";
 import "../blog.css";
 import { Metadata } from "next";
+import Link from "next/dist/client/link";
 
 // ======================
 // HELPER: YOUTUBE EMBED
@@ -42,14 +43,31 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
   const thumbnail = videoData?.thumbnail;
 
   return {
+  title: `${title} – Mitsubishi Đà Nẵng | Giá xe, đánh giá mới nhất`,
+  
+  description:
+    videoData?.caption?.slice(0, 160) ||
+    `Xem video và đánh giá ${title}. Cập nhật giá xe Mitsubishi mới nhất tại Đà Nẵng, ưu đãi hấp dẫn.`,
+
+  keywords: [
+    `${title.toLowerCase()}`,
+    "mitsubishi đà nẵng",
+    "giá xe mitsubishi",
+    "đánh giá xe mitsubishi",
+  ],
+
+  openGraph: {
     title,
     description: videoData?.caption || "",
-    openGraph: {
-      title,
-      description: videoData?.caption || "",
-      images: thumbnail ? [thumbnail] : [],
-    },
-  };
+    url: `https://mitsubishi-danang.vn/blog/${slug}`,
+    images: thumbnail ? [{ url: thumbnail, width: 1200, height: 630 }] : [],
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
 }
 
 // ======================
@@ -118,7 +136,8 @@ export default async function BlogDetail({ params }: any) {
   const shareTitle = encodeURIComponent(title);
   const shareUrl = encodeURIComponent(currentUrl);
   return (
-    <div className="blog-wrapper">
+    <>
+        <div className="blog-wrapper">
 
       {/* LEFT */}
       <div className="blog-content">
@@ -128,14 +147,25 @@ export default async function BlogDetail({ params }: any) {
 
         <h1>{title}</h1>
 
+        {/* 🔥 thêm description SEO */}
+        <p className="blog-desc">
+          {videoData?.caption ||
+            `${title} là video đánh giá chi tiết dòng xe Mitsubishi, cập nhật giá bán và ưu đãi mới nhất tại Đà Nẵng.`}
+        </p>
+
         {videoUrl && (
           <div className="video-wrapper">
             <iframe
               src={getYoutubeEmbed(videoUrl)}
               allowFullScreen
+              title={title} 
             />
           </div>
         )}
+
+        <Link href={`/car/${slug}`} className="blog-link">
+          Xem chi tiết xe
+        </Link>
         <div className="social-share">
             <a href={`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`} target="_blank"><svg viewBox="0 0 640 640" fill="currentColor">
               <path d="M80 299.3l0 212.7 116 0 0-212.7 86.5 0 18-97.8-104.5 0 0-34.6c0-51.7 20.3-71.5 72.7-71.5 16.3 0 29.4 .4 37 1.2l0-88.7C291.4 4 256.4 0 236.2 0 129.3 0 80 50.5 80 159.4l0 42.1-66 0 0 97.8 66 0z"/>
@@ -158,5 +188,20 @@ export default async function BlogDetail({ params }: any) {
       {/* RIGHT */}
       <BlogSidebar posts={posts} />
     </div>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "VideoObject",
+          name: title,
+          description: videoData?.caption || "",
+          thumbnailUrl: videoData?.thumbnail,
+          embedUrl: getYoutubeEmbed(videoUrl),
+        }),
+      }}
+    />
+    </>
   );
+  
 }

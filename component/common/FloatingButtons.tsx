@@ -20,7 +20,7 @@ export default function FloatingButtons({ cars }: any) {
             rel="noopener noreferrer"
             className="float-btn fb"
           >
-            <Image src="/icons/fb.png" alt="Facebook" width={30} height={30} />
+            <Image src="/Facebook.png" alt="Facebook" width={35} height={35} />
           </a>
 
           <a
@@ -29,28 +29,29 @@ export default function FloatingButtons({ cars }: any) {
             rel="noopener noreferrer"
             className="float-btn zalo"
           >
-            <Image src="/icons/zalo.png" alt="Zalo" width={30} height={30} />
+            <Image src="/zalo.png" alt="Zalo" width={30} height={30} />
           </a>
 
           <a href="tel:0934780797" className="float-btn phone">
-            <Image src="/icons/phone.png" alt="Call" width={28} height={28} />
+            <Image src="/phone.png" alt="Call" width={35} height={35} />
           </a>
         </div>
 
         {/* MOBILE */}
         <div className="mobile-bar">
-          <a href="tel:0934780797" className="mobile-btn call">
-            📞 0934 780 797
-          </a>
+        <a href="tel:0934780797" className="mobile-btn call">
+            <img src="/phone.png" width={16} height={16} />
+            0934 780 797
+            </a>
 
-          <button
+            <button
             className="mobile-btn quote"
             onClick={() => setOpenPopup(true)}
-          >
-            💲 Nhận báo giá
-          </button>
-        </div>
-
+            >
+            <img src="/money.png" width={16} height={16} />
+            Nhận báo giá
+            </button>
+          </div>
       </div>
 
       {/* POPUP */}
