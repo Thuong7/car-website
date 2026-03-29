@@ -105,7 +105,7 @@ body {
   height: auto;
 }
 
-.info p {
+.left .info p {
   margin: 0;
   font-size: 16px;
   color: #d60000;

@@ -3,9 +3,11 @@
 import { useEffect, useState } from "react";
 import FormPopup from "./FormModal";
 import { cars } from "@/component/data";
+import { Car } from "@/component/types";
 
 export default function PopupManager() {
   const [open, setOpen] = useState(false);
+  const [selectedCar, setSelectedCar] = useState<Car | null>(null); 
 
   useEffect(() => {
     const lastClosed = localStorage.getItem("popup_closed_time");
@@ -33,8 +35,8 @@ export default function PopupManager() {
       open={open}
       onClose={handleClose}
       cars={cars}
-      selectedCar={null}
-      setSelectedCar={() => {}}
+      selectedCar={selectedCar}        
+      setSelectedCar={setSelectedCar}  
     />
   );
 }

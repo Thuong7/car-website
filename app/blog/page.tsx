@@ -67,9 +67,12 @@ export default async function BlogList() {
   return (
     <>
     <div className="blog-wrapper">
-      <h1 className="seo-hidden">
-        Tin tức Mitsubishi Đà Nẵng mới nhất
-      </h1>
+      <section className="seo-hidden">
+        <h2>Tin tức xe Mitsubishi</h2>
+        <p>
+          Tổng hợp bài viết đánh giá, video trải nghiệm và cập nhật giá xe Mitsubishi mới nhất tại Đà Nẵng.
+        </p>
+      </section>
       {/* LEFT */}
       <div className="blog-list">
         {blogs.map((blog) => (
