@@ -2,6 +2,7 @@ import clientPromise from "@/lib/mongodb";
 import { notFound } from "next/navigation";
 import BlogSidebar from "./BlogSidebar";
 import "../blog.css";
+import { getCars } from "@/lib/getCars";
 import { Metadata } from "next";
 import Link from "next/dist/client/link";
 
@@ -94,7 +95,7 @@ async function getRecentBlogs() {
 // ======================
 export default async function BlogDetail({ params }: any) {
   const { slug } = await params;
-
+  const cars = await getCars();
   const blog = await getBlog(slug);
   if (!blog) return notFound();
 
@@ -183,7 +184,7 @@ export default async function BlogDetail({ params }: any) {
       </div>
 
       {/* RIGHT */}
-      <BlogSidebar posts={posts} />
+      <BlogSidebar cars={cars}posts={posts} />
     </div>
     <script
       type="application/ld+json"
