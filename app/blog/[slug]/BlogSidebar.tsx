@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Link from "next/link"; // 
 import SearchBox from "@/component/SearchBox";
-
 import "../blog.css";
 import { getCars } from "@/lib/getCars";
 
