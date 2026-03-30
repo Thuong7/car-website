@@ -5,9 +5,6 @@ import "../blog.css";
 import { Metadata } from "next";
 import Link from "next/dist/client/link";
 
-// ======================
-// HELPER: YOUTUBE EMBED
-// ======================
 function getYoutubeEmbed(url: string) {
   if (!url) return "";
   const id = url.split("v=")[1]?.split("&")[0];
