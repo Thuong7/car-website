@@ -4,15 +4,19 @@ import Footer from "@/component/Footer";
 import GalleryWrapper from "@/component/GalleryWrapper";
 import type { Metadata } from "next";
 import FloatingButtons from "@/component/common/FloatingButtons";
-import { cars } from "@/component/data";
+import { getCars } from "@/lib/getCars";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://mitsubishi-danang.vn"),
+
   title: {
     default: "Mitsubishi Đà Nẵng - Báo giá xe Mitsubishi mới nhất",
     template: "%s | Mitsubishi Đà Nẵng",
   },
+
   description:
     "Cập nhật giá xe Mitsubishi mới nhất 2026, ưu đãi hấp dẫn, hỗ trợ trả góp, đăng ký lái thử tại Đà Nẵng.",
+
   keywords: [
     "mitsubishi đà nẵng",
     "giá xe mitsubishi",
@@ -21,16 +25,11 @@ export const metadata: Metadata = {
     "attrage",
     "mitsubishi 2026",
   ],
+
   authors: [{ name: "Mitsubishi Đà Nẵng" }],
   creator: "Mitsubishi Đà Nẵng",
   publisher: "Mitsubishi Đà Nẵng",
-  twitter: {
-  card: "summary_large_image",
-  title: "Mitsubishi Đà Nẵng",
-  description:
-    "Giá xe Mitsubishi mới nhất, ưu đãi hấp dẫn, hỗ trợ trả góp.",
-  images: ["/banner.jpg"],
-},
+
   openGraph: {
     title: "Mitsubishi Đà Nẵng",
     description:
@@ -40,53 +39,70 @@ export const metadata: Metadata = {
     locale: "vi_VN",
     type: "website",
     images: [
-  {
-    url: "/banner.jpg",
-    width: 1200,
-    height: 630,
-    alt: "Mitsubishi Đà Nẵng",
+      {
+        url: "https://mitsubishi-danang.vn/banner.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Mitsubishi Đà Nẵng",
+      },
+    ],
   },
-],
+
+  twitter: {
+    card: "summary_large_image",
+    title: "Mitsubishi Đà Nẵng",
+    description:
+      "Giá xe Mitsubishi mới nhất, ưu đãi hấp dẫn, hỗ trợ trả góp.",
+    images: ["https://mitsubishi-danang.vn/banner.jpg"],
   },
-  viewport: "width=device-width, initial-scale=1",
+
   robots: {
     index: true,
     follow: true,
   },
 
-  metadataBase: new URL("https://mitsubishi-danang.vn"), 
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+  },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const cars = await getCars();
+
   return (
     <html lang="vi">
       <body>
-        <Header />
-        <main>{children}</main> 
+        <Header cars={cars} />
+
+        <main>{children}</main>
+
         <GalleryWrapper />
         <FloatingButtons cars={cars} />
         <Footer />
+
+        {/* SEO Schema */}
         <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify({
-                "@context": "https://schema.org",
-                "@type": "AutoDealer",
-                name: "Mitsubishi Đà Nẵng",
-                url: "https://mitsubishi-danang.vn",
-                telephone: "0934780797",
-                address: {
-                  "@type": "PostalAddress",
-                  addressLocality: "Đà Nẵng",
-                  addressCountry: "VN",
-                },
-              }),
-            }}
-          />
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "AutoDealer",
+              name: "Mitsubishi Đà Nẵng",
+              url: "https://mitsubishi-danang.vn",
+              telephone: "0934780797",
+              address: {
+                "@type": "PostalAddress",
+                addressLocality: "Đà Nẵng",
+                addressCountry: "VN",
+              },
+            }),
+          }}
+        />
       </body>
     </html>
   );

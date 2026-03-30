@@ -1,16 +1,14 @@
 "use client";
 
-import { useState } from "react";
-import "./FormBox.css";
+import { useEffect, useState } from "react";
 import { Car } from "@/component/types";
-
+import "./FormBox.css";
 type Props = {
   hideTitle?: boolean;
   cars: Car[];
   selectedCar: Car | null;
   setSelectedCar: (car: Car | null) => void;
 };
-
 export default function FormBox({
   hideTitle,
   cars,
@@ -83,7 +81,14 @@ export default function FormBox({
 
     setLoading(false);
   };
-
+useEffect(() => {
+  if (selectedCar) {
+    setForm((prev) => ({
+      ...prev,
+      car: selectedCar.name,
+    }));
+  }
+}, [selectedCar]);
   return (
     <form className="form-box" onSubmit={handleSubmit}>
       {!hideTitle && <h3>NHẬN BÁO GIÁ & LÁI THỬ XE</h3>}
@@ -149,7 +154,7 @@ export default function FormBox({
       >
         <option value="">Xe muốn mua</option>
         {cars.map((car) => (
-          <option key={car.id} value={car.slug}>
+          <option key={car._id} value={car.slug}>
             {car.name}
           </option>
         ))}

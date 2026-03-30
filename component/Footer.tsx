@@ -71,9 +71,9 @@ export default function Footer() {
           {/* bottom */}
           <div className="footer-bottom">
             <div className="footer-links">
-              <a href="#">TRANG CHỦ</a>
-              <a href="#">TRẢI NGHIỆM KHÁCH HÀNG</a>
-              <a href="#">LIÊN HỆ</a>
+              <a href="/">TRANG CHỦ</a>
+              <a href="/review">TRẢI NGHIỆM KHÁCH HÀNG</a>
+              <a href="/contact">LIÊN HỆ</a>
             </div>
 
             <p>Copyright 2026 © mitsubishi-motorsdanang.vn</p>

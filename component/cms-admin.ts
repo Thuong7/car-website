@@ -7,5 +7,6 @@ export type SectionWithId = Section & {
 export type CarDetailAdmin = {
   name: string;
   slug: string;
+  order?: number;
   sections: SectionWithId[];
 };

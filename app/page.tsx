@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Hero from "@/component/Hero";
 import CarList from "@/component/CarList";
-import { cars } from "@/component/data";
+import { getCars } from "@/lib/getCars";
+import { Car } from "@/component/types";
 import PopupManager from "@/component/PopupManager";
 import NewsSection from "@/component/NewsSection";
 import "./globals.css";
@@ -19,8 +20,8 @@ export const metadata: Metadata = {
     "triton mitsubishi",
   ],
 };
-
-export default function Home() {
+export default async function Home() {
+  const cars = await getCars();
   return (
     <>
       <h1 className="seo-hidden">
@@ -54,7 +55,7 @@ export default function Home() {
         <NewsSection />
       </main>
 
-      <PopupManager />
+      <PopupManager cars={cars} />
       <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

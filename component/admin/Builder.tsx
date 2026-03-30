@@ -27,7 +27,6 @@ export default function Builder({ data, setData, setIsEditing }: Props) {
     fetchCars();
   }, []);
 
-  // 🔥 load car
   const loadCar = async (slug: string) => {
     const res = await fetch(`/api/car-detail?slug=${slug}`);
     const car = await res.json();
@@ -256,6 +255,17 @@ export default function Builder({ data, setData, setIsEditing }: Props) {
             }
           />
         </div>
+            <input
+            type="number"
+            placeholder="Order (thứ tự hiển thị)"
+            value={data.order || 0}
+            onChange={(e) =>
+              setData({
+                ...data,
+                order: Number(e.target.value),
+              })
+            }
+          />
 
         <div className="builder-content">
           {data.sections.map((block) => (

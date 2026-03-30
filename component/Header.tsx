@@ -2,15 +2,15 @@
 import { useRef } from "react";
 import { useState, useEffect } from "react";
 import { Menu, Search, X } from "lucide-react";
-import { cars } from "@/component/data";
 import Link from "next/link";
 import Image from "next/image";
 import "./Header.css";
 import FormPopup from "./FormModal";
 import { usePathname } from "next/navigation";
 import { useSearch } from "@/component/utils/useSearch";
+import { Car } from "@/component/types";
 
-export default function Header() {
+export default function Header({ cars }: { cars: Car[] }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
@@ -116,7 +116,7 @@ export default function Header() {
                 {openSearch && keyword && result.length > 0 && (
                   <div className="search-result">
                     {result.slice(0, 5).map((car) => (
-                      <Link key={car.id} href={`/car/${car.slug}`}>
+                      <Link key={car._id} href={`/car/${car.slug}`}>
                         <div className="search-item">
                           <img src={car.image} className="search-thumb" />
                           <div className="search-info">
@@ -169,7 +169,7 @@ export default function Header() {
                 {openSearch && keyword && result.length > 0 && (
                   <div className="search-result">
                     {result.slice(0, 5).map((car) => (
-                      <Link key={car.id} href={`/car/${car.slug}`}>
+                      <Link key={car._id} href={`/car/${car.slug}`}>
                         <div className="search-item">
                           <img src={car.image} className="search-thumb" />
                           <div className="search-info">
@@ -200,14 +200,9 @@ export default function Header() {
                   TRANG CHỦ
                 </Link>
               </li>
-
               {cars.map((car) => (
-                <li key={car.id}>
-                  <Link title={`Mitsubishi ${car.name} Đà Nẵng`}
-                    href={`/car/${car.slug}`}
-                    aria-label={`Xem chi tiết xe ${car.name}`}
-                    className={isActive(`/car/${car.slug}`) ? "active" : ""}
-                  >
+                <li key={car._id}>
+                  <Link href={`/car/${car.slug}`}>
                     {car.name.replace("MITSUBISHI ", "")}
                   </Link>
                 </li>
@@ -268,7 +263,7 @@ export default function Header() {
 
           <ul className={`submenu ${openMenu ? "show" : ""}`}>
             {cars.map((car) => (
-              <li key={car.id}>
+              <li key={car._id}>
                 <Link
                   href={`/car/${car.slug}`}
                   aria-label={`Xem chi tiết xe ${car.name}`}

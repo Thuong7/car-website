@@ -20,7 +20,7 @@ export default function CarListClient({ cars }: Props) {
     <>
       <div className="car-grid">
         {cars.map((car) => (
-          <article key={car.id}>
+          <article key={car.slug}>
             <CarCard
               car={car}
               onOpen={(car) => {

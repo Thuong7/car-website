@@ -2,10 +2,13 @@
 
 import { useEffect, useState } from "react";
 import FormPopup from "./FormModal";
-import { cars } from "@/component/data";
 import { Car } from "@/component/types";
 
-export default function PopupManager() {
+type Props = {
+  cars: Car[];        
+};
+
+export default function PopupManager({ cars }: Props) {
   const [open, setOpen] = useState(false);
   const [selectedCar, setSelectedCar] = useState<Car | null>(null); 
 

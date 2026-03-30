@@ -3,7 +3,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Car } from "./types";
-import "@/component/CarList.css"
+import "@/component/CarList.css";
+
 type Props = {
   car: Car;
   onOpen: (car: Car) => void;
@@ -14,8 +15,8 @@ export default function CarCard({ car, onOpen }: Props) {
     <div className="car-card">
       <Link href={`/car/${car.slug}`}>
         <Image
-          src={car.image}
-          alt={`Xe ${car.name} Mitsubishi chính hãng`}
+          src={car.image || "/default.jpg"}
+          alt={`${car.name} Mitsubishi Đà Nẵng`}
           width={400}
           height={250}
           className="car-image"
@@ -36,7 +37,7 @@ export default function CarCard({ car, onOpen }: Props) {
             onOpen(car);
           }}
         >
-          📩 BÁO GIÁ LĂN BÁNH 
+          📩 BÁO GIÁ LĂN BÁNH
         </button>
 
         <Link href={`/car/${car.slug}`} className="btn gray">

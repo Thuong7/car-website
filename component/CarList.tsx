@@ -8,7 +8,7 @@ type Props = {
 
 export default function CarList({ cars }: Props) {
   const uniqueCars: Car[] = Array.from(
-    new Map(cars.map((c) => [c.id, c])).values()
+    new Map(cars.map((c) => [c._id, c])).values()
   );
 
   return (

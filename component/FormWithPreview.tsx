@@ -2,15 +2,13 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Car } from "@/component/types";
 import "./FormBox.css";
-
+import { Car } from "@/component/types";
 type Props = {
   cars: Car[];
   selectedCar: Car | null;
   setSelectedCar: (car: Car | null) => void;
 };
-
 export default function FormWithPreview({
   cars,
   selectedCar,
@@ -167,7 +165,7 @@ export default function FormWithPreview({
         >
           <option value="">Xe muốn mua</option>
           {cars.map((car) => (
-            <option key={car.id} value={car.slug}>
+            <option key={car._id} value={car.slug}>
               {car.name}
             </option>
           ))}
