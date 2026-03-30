@@ -164,7 +164,7 @@ export default function HeroSection({ car,slug  }: Props) {
       setPosition({ x: 0, y: 0 });
     }
   };
-
+  
   return (
     <section className="hero">
       <h1 className="sr-only">{car.name}</h1>
@@ -218,7 +218,9 @@ export default function HeroSection({ car,slug  }: Props) {
               onMouseLeave={handleEnd}
             >
               <div className="gallery-track">
-                {gallery.map((img: string, i: number) => (
+                {gallery
+                .filter(Boolean)
+                .map((img: string, i: number) => (
                   <Image
                     key={i}
                     src={img}
@@ -231,7 +233,7 @@ export default function HeroSection({ car,slug  }: Props) {
                     }}
                     className={index === i ? "active" : ""}
                   />
-                ))}
+              ))}
               </div>
             </div>
 

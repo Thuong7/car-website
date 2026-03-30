@@ -184,7 +184,7 @@ export default async function BlogDetail({ params }: any) {
       </div>
 
       {/* RIGHT */}
-      <BlogSidebar cars={cars}posts={posts} />
+      <BlogSidebar posts={posts} />
     </div>
     <script
       type="application/ld+json"

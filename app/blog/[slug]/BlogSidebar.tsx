@@ -1,15 +1,15 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link"; // 
+import { useEffect, useState } from "react";
+import Link from "next/link";
 import SearchBox from "@/component/SearchBox";
 import "../blog.css";
-import { getCars } from "@/lib/getCars";
 
 type Post = {
   _id: string;
   title: string;
   slug: string;
+  thumbnail?: string;
 };
 
 function getYoutubeThumbnail(url?: string) {
@@ -24,13 +24,20 @@ function getYoutubeThumbnail(url?: string) {
     : null;
 }
 
-export default async function BlogSidebar({ posts }: any) {
-  const cars = await getCars();
+export default function BlogSidebar({ posts }: { posts: Post[] }) {
+  const [cars, setCars] = useState([]);
+
+  useEffect(() => {
+    fetch("/api/cars")
+      .then(res => res.json())
+      .then(data => setCars(data));
+  }, []);
+
   return (
     <aside className="blog-sidebar">
 
       {/* SEARCH */}
-      <SearchBox cars={cars} blogs={posts} /> 
+      <SearchBox cars={cars} blogs={posts} />
 
       {/* RECENT */}
       <div className="recent-posts">
@@ -38,24 +45,24 @@ export default async function BlogSidebar({ posts }: any) {
 
         <ul>
           {posts?.length > 0 ? (
-            posts.map((p: any) => (
+            posts.map((p) => (
               <li key={p._id} className="recent-item">
                 <Link href={`/blog/${p.slug}`}>
-
+                  
                   <div className="thumb">
                     <img
                       src={
                         p.thumbnail && p.thumbnail.trim() !== ""
                           ? p.thumbnail
-                          : getYoutubeThumbnail(p.youtubeUrl) || "/default.jpg"
+                          : "/default.jpg"
                       }
-                      alt={p.title || "blog"}
+                      alt={p.title}
                       onError={(e: any) => (e.target.src = "/default.jpg")}
                     />
                   </div>
 
                   <div className="info">
-                    <p>{p.title || p.name}</p>
+                    <p>{p.title}</p>
                   </div>
 
                 </Link>
