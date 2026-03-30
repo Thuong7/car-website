@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link"; // 
-import { cars } from "@/component/data";
 import SearchBox from "@/component/SearchBox";
 
 import "../blog.css";
+import { getCars } from "@/lib/getCars";
 
 type Post = {
   _id: string;
@@ -25,8 +25,8 @@ function getYoutubeThumbnail(url?: string) {
     : null;
 }
 
-export default function BlogSidebar({ posts }: any) {
-
+export default async function BlogSidebar({ posts }: any) {
+  const cars = await getCars();
   return (
     <aside className="blog-sidebar">
 

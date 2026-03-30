@@ -3,11 +3,11 @@ import Link from "next/link";
 import Image from "next/image";
 import "./blog.css";
 import { useSearch } from "@/component/utils/useSearch";
-import { cars } from "@/component/data";
 import SearchSidebar from "@/component/SearchBox";
 import SearchBox from "@/component/SearchBox";
 export const revalidate = 60;
 import type { Metadata } from "next";
+import { getCars } from "@/lib/getCars";
 // ======================
 // DATA
 // ======================
@@ -42,7 +42,7 @@ async function getBlogs() {
 // ======================
 export default async function BlogList() {
   const blogsRaw = await getBlogs();
-
+  const cars = await getCars();
   const blogs = blogsRaw.map((b: any) => {
     const video = b.sections?.find(
       (s: any) => s.type === "video"

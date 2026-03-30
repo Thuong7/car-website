@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import FormWithPreview from "@/component/FormWithPreview";
-import { cars } from "@/component/data";
 import { Car } from "@/component/types";
+import { getCars } from "@/lib/getCars";
 
-export default function FormSection() {
+export default async function FormSection() {
   const [selectedCar, setSelectedCar] = useState<Car | null>(null);
-
+  const cars = await getCars();
   return (
     <FormWithPreview
       cars={cars}
