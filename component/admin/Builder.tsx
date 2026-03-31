@@ -257,7 +257,7 @@ export default function Builder({ data, setData, setIsEditing }: Props) {
         </div>
             <input
             type="number"
-            placeholder="Order (thứ tự hiển thị)"
+            placeholder="Thứ tự hiển thị"
             value={data.order || 0}
             onChange={(e) =>
               setData({
