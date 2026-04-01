@@ -19,6 +19,7 @@ export const metadata: Metadata = {
 async function getBlogs() {
   const client = await clientPromise;
   const db = client.db("car-showroom");
+  const cars = await getCars();
 
   return db
     .collection("blogs")

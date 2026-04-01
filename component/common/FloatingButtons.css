@@ -134,11 +134,11 @@
   bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
-
+  width: calc(100% - 11px);
   width: min(100%, 640px);
   padding: 0 8px;
 
-  display: none; /* 🔥 default ẩn */
+  display: none; 
 
   gap: 8px;
   box-sizing: border-box;
