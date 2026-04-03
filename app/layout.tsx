@@ -5,6 +5,7 @@ import GalleryWrapper from "@/component/GalleryWrapper";
 import type { Metadata } from "next";
 import FloatingButtons from "@/component/common/FloatingButtons";
 import { getCars } from "@/lib/getCars";
+import { GoogleTagManager } from "@next/third-parties/google";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://mitsubishi-danang.vn"),
@@ -76,7 +77,9 @@ export default async function RootLayout({
 
   return (
     <html lang="vi">
+    
       <body>
+      <GoogleTagManager gtmId="GTM-5ZTF6XBG" />
         <Header cars={cars} />
 
         <main>{children}</main>
